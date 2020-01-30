@@ -25,6 +25,7 @@ namespace DatingApp.Data
             {
                 return null;
             }
+            return user;
         }
 
         private bool VerifyPassword(string password, byte[] passowrdHash, byte[] passwordSalt)
