@@ -1,0 +1,38 @@
+<header class="blog-header py-3">
+  <div class="row flex-nowrap justify-content-between align-items-center">
+
+    <div class="col-5">
+      <a class="blog-header-logo text-dark" href="#">Dating App</a>
+    </div>
+    <div class="col-7 d-flex justify-content-end align-items-center">
+
+      <div *ngIf="loggedIn()" class="dropdown">
+        <a class=" dropdown-toggle text-dark">
+          Welcome {{model.username}}
+        </a>
+      
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a>
+        </div>
+      </div>
+
+      <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+        <input class="form-control mr-sm-2" name="username" type="text"
+            placeholder="username" required [(ngModel)]="model.username">
+        <input class="form-control mr-sm-2" type="password" name="password"
+            placeholder="password" required [(ngModel)]="model.password">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="!loginForm.valid">Login</button>
+      </form>
+    </div>
+  </div>
+</header>
+<div class="nav-scroller py-1 mb-2">
+  <nav class="nav d-flex">
+    <a class="p-3 text-muted" href="#">Matches</a>
+    <a class="p-3 text-muted" href="#">Lists</a>
+    <a class="p-3 text-muted" href="#">Messages</a>
+    <a class="p-3 text-muted" (click)="logOut()">Logout</a>
+  </nav>
+</div>
