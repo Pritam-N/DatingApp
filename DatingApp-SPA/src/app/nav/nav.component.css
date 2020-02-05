@@ -105,3 +105,6 @@
     margin-bottom: 0;
   }
   
+  .dropdown-item, .dropdown-toggle{
+    cursor: pointer;
+  }
