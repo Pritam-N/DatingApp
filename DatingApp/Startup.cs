@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.Data;
 using DatingApp.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,9 +36,17 @@ namespace DatingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DatingApp")));
-            services.AddControllers();
+            // in .netcore 3+ we need to add this to use netwonsoft json else it will use system.text.json
+
+            services.AddControllers().AddNewtonsoftJson(option => {
+                // to handle self referencing issue between user and photos as users -> photos -> users 
+                option.SerializerSettings.ReferenceLoopHandling = 
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
