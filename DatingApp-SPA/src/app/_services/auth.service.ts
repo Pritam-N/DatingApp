@@ -8,11 +8,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl: string = environment + 'auth/';
+  baseUrl = '';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.apiUrl + 'auth/';
+  }
 
   login(model: any) {
     return this.http.post(this.baseUrl + 'login', model).pipe(
