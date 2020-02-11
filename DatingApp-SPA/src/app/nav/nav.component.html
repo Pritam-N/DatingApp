@@ -7,6 +7,9 @@
     <div class="col-7 d-flex justify-content-end align-items-center">
 
       <div *ngIf="loggedIn()" class="dropdown" dropdown>
+        <span class="mr-1">
+          <img src="{{photoUrl}}" alt="">
+        </span>
         <a class="dropdown-toggle text-dark" dropdownToggle>
           Welcome {{authService.decodedToken?.unique_name | titlecase}}
         </a>
