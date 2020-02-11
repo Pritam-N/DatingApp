@@ -24,3 +24,15 @@ nav{
     display: none;
   }
 }
+
+  
+  .dropdown-item, .dropdown-toggle{
+    cursor: pointer;
+  }
+
+  img{
+    max-height: 40px;
+    border: 2px solid white;
+    display: inline;
+  }
+

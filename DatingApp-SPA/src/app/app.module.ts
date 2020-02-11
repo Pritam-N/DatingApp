@@ -9,6 +9,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import 'hammerjs';
 import 'mousetrap';
 import {GalleryModule} from '@ks89/angular-modal-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -28,6 +29,10 @@ import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { FooterComponent } from './footer/footer.component';
 import { TooltipModule } from 'ngx-bootstrap';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 // import { NgxGalleryModule } from 'ngx-gallery';
 
 export function tokenGetter() {
@@ -52,7 +57,9 @@ export function tokenGetter() {
       MessagesComponent,
       MemberCardComponent,
       MemberDetailComponent,
-      FooterComponent
+      FooterComponent,
+      MemberEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
@@ -64,6 +71,7 @@ export function tokenGetter() {
       RouterModule.forRoot(appRoutes),
       GalleryModule.forRoot(),
       TooltipModule.forRoot(),
+      FileUploadModule,
       // NgxGalleryModule,
       JwtModule.forRoot({
          config: {
@@ -79,7 +87,9 @@ export function tokenGetter() {
       UserService,
       AuthGuard,
       MemberDetailResolver,
-      MemberListResolver
+      MemberListResolver,
+      MemberEditResolver,
+      PreventUnsavedChanges
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
    ],
    bootstrap: [
