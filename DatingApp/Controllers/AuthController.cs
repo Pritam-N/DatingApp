@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.Data;
 using DatingApp.DTOs;
 using DatingApp.Helpers;
@@ -24,11 +25,13 @@ namespace DatingApp.Controllers
         public JWTTokenGenerator _jwt { get; }
 
         public IDatingRepository _dateRepo { get; }
+        public IMapper _mapper { get; }
 
-        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IDatingRepository dateRepo)
+        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IDatingRepository dateRepo, IMapper mapper)
         {
             _configuration = configuration;
             _jwt = jwt;
+            _mapper = mapper;
             _auth = auth;
             _dateRepo = dateRepo;
         }
@@ -72,9 +75,11 @@ namespace DatingApp.Controllers
 
             await _dateRepo.SaveAll(userFromRepo);
 
+            var user = _mapper.Map<UserForListDto>(userFromRepo);
             return Ok(new 
-            { 
-                token = _jwt.GenerateToken(userFromRepo.Id,userFromRepo.UserName)
+            {
+                token = _jwt.GenerateToken(userFromRepo.Id,userFromRepo.UserName),
+                user = user
             });
         }
     }
