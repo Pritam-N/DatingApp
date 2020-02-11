@@ -35,9 +35,8 @@ namespace DatingApp.Data
             return await _context.Users.Include(s => s.Photos).ToListAsync();
         }
 
-        public async Task<bool> SaveAll(User user)
+        public async Task<bool> SaveAll()
         {
-            _context.Update(user);
             return await _context.SaveChangesAsync() > 0;
         }
 

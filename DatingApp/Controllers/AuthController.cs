@@ -71,10 +71,6 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            userFromRepo.LastActive = DateTime.Now;
-
-            await _dateRepo.SaveAll(userFromRepo);
-
             var user = _mapper.Map<UserForListDto>(userFromRepo);
             return Ok(new 
             {
