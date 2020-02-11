@@ -26,6 +26,8 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { FooterComponent } from './footer/footer.component';
+import { TooltipModule } from 'ngx-bootstrap';
 // import { NgxGalleryModule } from 'ngx-gallery';
 
 export function tokenGetter() {
@@ -49,7 +51,8 @@ export function tokenGetter() {
       ListsComponent,
       MessagesComponent,
       MemberCardComponent,
-      MemberDetailComponent
+      MemberDetailComponent,
+      FooterComponent
    ],
    imports: [
       BrowserModule,
@@ -60,6 +63,7 @@ export function tokenGetter() {
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       GalleryModule.forRoot(),
+      TooltipModule.forRoot(),
       // NgxGalleryModule,
       JwtModule.forRoot({
          config: {
