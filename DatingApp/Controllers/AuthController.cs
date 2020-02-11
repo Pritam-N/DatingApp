@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DatingApp.Data;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using DatingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,11 +21,16 @@ namespace DatingApp.Controllers
     {
         public IAuthRepository _auth { get; }
         public IConfiguration _configuration { get; }
-        public AuthController(IAuthRepository auth, IConfiguration configuration)
+        public JWTTokenGenerator _jwt { get; }
+
+        public IDatingRepository _dateRepo { get; }
+
+        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IDatingRepository dateRepo)
         {
             _configuration = configuration;
+            _jwt = jwt;
             _auth = auth;
-
+            _dateRepo = dateRepo;
         }
 
         [HttpPost("register")]
@@ -34,14 +42,20 @@ namespace DatingApp.Controllers
             {
                 return BadRequest("Username already exists.");
             }
-
+            
             var user = new User
             {
-                UserName = dto.UserName
+                UserName = dto.UserName               
             };
 
             var createdUser = await _auth.Register(user, dto.Password);
-            return StatusCode(201);
+
+            return Ok(new 
+            { 
+                token = _jwt.GenerateToken(createdUser.Id,createdUser.UserName)
+            });
+
+            //return StatusCode(201);
         }
 
         [HttpPost("login")]
@@ -54,30 +68,13 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.UserName)
-            };
+            userFromRepo.LastActive = DateTime.Now;
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            await _dateRepo.SaveAll(userFromRepo);
 
             return Ok(new 
             { 
-                token = tokenHandler.WriteToken(token)
+                token = _jwt.GenerateToken(userFromRepo.Id,userFromRepo.UserName)
             });
         }
     }
