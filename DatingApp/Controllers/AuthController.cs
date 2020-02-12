@@ -19,8 +19,6 @@ namespace DatingApp.Controllers
     {
         public IAuthRepository _auth { get; }
         public IConfiguration _configuration { get; }
-        public IDatingRepository _repository { get;}
-        public AuthController(IAuthRepository auth, IConfiguration configuration)
         public IMapper _mapper { get; }
 
         public AuthController(IAuthRepository auth, IConfiguration configuration,
