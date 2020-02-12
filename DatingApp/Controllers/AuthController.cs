@@ -57,7 +57,6 @@ namespace DatingApp.Controllers
             { 
                 token = _jwt.GenerateToken(createdUser.Id,createdUser.UserName)
             });
-
             //return StatusCode(201);
         }
 
