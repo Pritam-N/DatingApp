@@ -27,6 +27,8 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { FooterComponent } from './footer/footer.component';
+import { TooltipModule } from 'ngx-bootstrap';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
@@ -55,6 +57,7 @@ export function tokenGetter() {
       MessagesComponent,
       MemberCardComponent,
       MemberDetailComponent,
+      FooterComponent,
       MemberEditComponent,
       PhotoEditorComponent
    ],
@@ -67,6 +70,7 @@ export function tokenGetter() {
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       GalleryModule.forRoot(),
+      TooltipModule.forRoot(),
       FileUploadModule,
       // NgxGalleryModule,
       JwtModule.forRoot({
