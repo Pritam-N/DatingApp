@@ -27,7 +27,7 @@ namespace DatingApp.Controllers
             _configuration = configuration;
             _mapper = mapper;
             _auth = auth;
-
+           
         }
 
         [HttpPost("register")]
@@ -42,9 +42,10 @@ namespace DatingApp.Controllers
 
             var user = new User
             {
-                UserName = dto.UserName
+                UserName = dto.UserName,
+                LastActive = CommonFunctions.GetDateTime(),
+                Created = CommonFunctions.GetDateTime(),
             };
-
             var createdUser = await _auth.Register(user, dto.Password);
             return StatusCode(201);
         }
@@ -53,12 +54,10 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> Login(UserForLoginDto login)
         {
             var userFromRepo = await _auth.Login(login.Username, login.Password);
-
             if (userFromRepo == null)
             {
                 return Unauthorized();
             }
-
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
@@ -77,7 +76,6 @@ namespace DatingApp.Controllers
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             var user = _mapper.Map<UserForListDto>(userFromRepo);
