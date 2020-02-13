@@ -31,23 +31,20 @@ namespace DatingApp.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto dto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            dto.UserName = dto.UserName.ToLower();
+            userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
 
-            if (await _auth.UserExists(dto.UserName))
-            {
+            if (await _auth.UserExists(userForRegisterDto.UserName))
                 return BadRequest("Username already exists.");
-            }
 
-            var user = new User
-            {
-                UserName = dto.UserName,
-                LastActive = CommonFunctions.GetDateTime(),
-                Created = CommonFunctions.GetDateTime(),
-            };
-            var createdUser = await _auth.Register(user, dto.Password);
-            return StatusCode(201);
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
+
+            var createdUser = await _auth.Register(userToCreate, userForRegisterDto.Password);
+
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]

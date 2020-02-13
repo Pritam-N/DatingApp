@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Data;
 using DatingApp.DTOs;
+using DatingApp.MLModels;
 using DatingApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ML;
 
 namespace DatingApp.Controllers
 {
@@ -33,12 +35,14 @@ namespace DatingApp.Controllers
             return Ok(usersToReturn);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repository.GetUser(id);
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
-
+            //var mlContext = new MLContext();
+            //var model = SentimentAnalysis.TrainModel(mlContext);
+            //var prediction = SentimentAnalysis.PredictSingleSentiment(mlContext, model, "I've Got An Urge To Make Music Like Massively.. I'm Going To The Studio");
             return Ok(userToReturn);
         }
         [HttpPut("{id}")]
