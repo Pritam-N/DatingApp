@@ -10,7 +10,7 @@ using DatingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-
+using DatingApp.Utils;
 namespace DatingApp.Controllers
 {
     [Route("api/[controller]")]
