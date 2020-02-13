@@ -18,9 +18,7 @@ export class RegisterComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   validRegistrationDate = new Date();
 
-
-
-  constructor(private authService: AuthService,
+ constructor(private authService: AuthService,
               private alertify: AlertifyService,
               private fb: FormBuilder,
               private router: Router) {
@@ -66,12 +64,6 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    // this.authService.register(this.model).subscribe(next => {
-    //   this.alertify.success('Registration successfull.');
-    // }, error => {
-    //   this.alertify.error(error);
-    // });
-
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
       this.authService.register(this.user).subscribe(next => {
@@ -84,6 +76,5 @@ export class RegisterComponent implements OnInit {
         });
       });
     }
-    console.log(this.registerForm.value);
   }
 }

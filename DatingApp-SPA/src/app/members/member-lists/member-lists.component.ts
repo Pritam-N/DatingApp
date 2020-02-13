@@ -27,6 +27,6 @@ export class MemberListsComponent implements OnInit {
   //     this.users = users;
   //   }, error => {
   //     this.alertify.error(error);
-  //   }); 
+  //   });
   // }
 }
