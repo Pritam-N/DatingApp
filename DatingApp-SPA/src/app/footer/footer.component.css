@@ -1,0 +1,13 @@
+.footer-wrapper{
+    width: 100%;
+    background-color: darkslategrey;
+}
+.footer{
+    color: white;
+    height: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
+.fa{
+    margin: 0px 10px;
+}

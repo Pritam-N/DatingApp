@@ -23,55 +23,45 @@ namespace DatingApp.Controllers
         public IAuthRepository _auth { get; }
         public IConfiguration _configuration { get; }
         public JWTTokenGenerator _jwt { get; }
-
-        public IDatingRepository _dateRepo { get; }
         public IMapper _mapper { get; }
 
-        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IDatingRepository dateRepo, IMapper mapper)
+        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IMapper mapper)
         {
             _configuration = configuration;
             _jwt = jwt;
             _mapper = mapper;
             _auth = auth;
-            _dateRepo = dateRepo;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto dto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            dto.UserName = dto.UserName.ToLower();
+            userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
 
-            if (await _auth.UserExists(dto.UserName))
-            {
+            if (await _auth.UserExists(userForRegisterDto.UserName))
                 return BadRequest("Username already exists.");
-            }
             
-            var user = new User
-            {
-                UserName = dto.UserName               
-            };
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            var createdUser = await _auth.Register(user, dto.Password);
+            var createdUser = await _auth.Register(userToCreate, userForRegisterDto.Password);
 
-            return Ok(new 
-            { 
-                token = _jwt.GenerateToken(createdUser.Id,createdUser.UserName)
-            });
-            //return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto login)
         {
             var userFromRepo = await _auth.Login(login.Username, login.Password);
-
             if (userFromRepo == null)
             {
                 return Unauthorized();
             }
-
+            
             userFromRepo.LastActive = DateTime.Now;
             await _auth.SaveAll();
+            
             var user = _mapper.Map<UserForListDto>(userFromRepo);
             return Ok(new 
             {
