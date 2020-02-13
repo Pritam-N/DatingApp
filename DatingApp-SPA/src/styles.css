@@ -50,3 +50,8 @@
     border-top: 1px solid #eee;
     padding: 15px 0;
   }
+
+  body{
+    padding-top: 60px;
+    overflow-x: hidden;
+  }

@@ -23,17 +23,15 @@ namespace DatingApp.Controllers
         public IAuthRepository _auth { get; }
         public IConfiguration _configuration { get; }
         public JWTTokenGenerator _jwt { get; }
-
-        public IDatingRepository _dateRepo { get; }
         public IMapper _mapper { get; }
 
-        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IDatingRepository dateRepo, IMapper mapper)
+        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IMapper mapper)
         {
             _configuration = configuration;
             _jwt = jwt;
             _mapper = mapper;
             _auth = auth;
-            _dateRepo = dateRepo;
+           
         }
 
         [HttpPost("register")]
@@ -48,9 +46,10 @@ namespace DatingApp.Controllers
             
             var user = new User
             {
-                UserName = dto.UserName               
+                UserName = dto.UserName,
+                LastActive = CommonFunctions.GetDateTime(),
+                Created = CommonFunctions.GetDateTime(),
             };
-
             var createdUser = await _auth.Register(user, dto.Password);
 
             return Ok(new 
@@ -64,7 +63,6 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> Login(UserForLoginDto login)
         {
             var userFromRepo = await _auth.Login(login.Username, login.Password);
-
             if (userFromRepo == null)
             {
                 return Unauthorized();
