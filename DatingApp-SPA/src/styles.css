@@ -56,3 +56,7 @@
     padding-top: 60px;
     overflow-x: hidden;
   }
+
+  .custom-container{
+    min-height: calc(100vh - 100px);
+  }
