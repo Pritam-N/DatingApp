@@ -31,32 +31,23 @@ namespace DatingApp.Controllers
             _jwt = jwt;
             _mapper = mapper;
             _auth = auth;
-           
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto dto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            dto.UserName = dto.UserName.ToLower();
+            userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
 
-            if (await _auth.UserExists(dto.UserName))
-            {
+            if (await _auth.UserExists(userForRegisterDto.UserName))
                 return BadRequest("Username already exists.");
-            }
             
-            var user = new User
-            {
-                UserName = dto.UserName,
-                LastActive = CommonFunctions.GetDateTime(),
-                Created = CommonFunctions.GetDateTime(),
-            };
-            var createdUser = await _auth.Register(user, dto.Password);
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            return Ok(new 
-            { 
-                token = _jwt.GenerateToken(createdUser.Id,createdUser.UserName)
-            });
-            //return StatusCode(201);
+            var createdUser = await _auth.Register(userToCreate, userForRegisterDto.Password);
+
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]
@@ -67,9 +58,10 @@ namespace DatingApp.Controllers
             {
                 return Unauthorized();
             }
-
+            
             userFromRepo.LastActive = DateTime.Now;
             await _auth.SaveAll();
+            
             var user = _mapper.Map<UserForListDto>(userFromRepo);
             return Ok(new 
             {
