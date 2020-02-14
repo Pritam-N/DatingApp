@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -6,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.Data;
 using DatingApp.DTOs;
+using DatingApp.Helpers;
 using DatingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,35 +22,32 @@ namespace DatingApp.Controllers
     {
         public IAuthRepository _auth { get; }
         public IConfiguration _configuration { get; }
+        public JWTTokenGenerator _jwt { get; }
         public IMapper _mapper { get; }
 
-        public AuthController(IAuthRepository auth, IConfiguration configuration,
-                            IMapper mapper)
+        public AuthController(IAuthRepository auth, IConfiguration configuration, JWTTokenGenerator jwt, IMapper mapper)
         {
             _configuration = configuration;
+            _jwt = jwt;
             _mapper = mapper;
             _auth = auth;
-           
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto dto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            dto.UserName = dto.UserName.ToLower();
+            userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
 
-            if (await _auth.UserExists(dto.UserName))
-            {
+            if (await _auth.UserExists(userForRegisterDto.UserName))
                 return BadRequest("Username already exists.");
-            }
+            
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            var user = new User
-            {
-                UserName = dto.UserName,
-                LastActive = CommonFunctions.GetDateTime(),
-                Created = CommonFunctions.GetDateTime(),
-            };
-            var createdUser = await _auth.Register(user, dto.Password);
-            return StatusCode(201);
+            var createdUser = await _auth.Register(userToCreate, userForRegisterDto.Password);
+
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]
@@ -58,30 +58,14 @@ namespace DatingApp.Controllers
             {
                 return Unauthorized();
             }
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.UserName)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
+            
+            userFromRepo.LastActive = DateTime.Now;
+            await _auth.SaveAll();
+            
             var user = _mapper.Map<UserForListDto>(userFromRepo);
             return Ok(new 
-            { 
-                token = tokenHandler.WriteToken(token),
+            {
+                token = _jwt.GenerateToken(userFromRepo.Id,userFromRepo.UserName),
                 user = user
             });
         }

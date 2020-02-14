@@ -64,5 +64,10 @@ namespace DatingApp.Data
         {
             return await _context.Users.AnyAsync(x => x.UserName == username);
         }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }
