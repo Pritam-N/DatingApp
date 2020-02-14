@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using DatingApp.Controllers;
+using DatingApp.Utils;
 
 namespace DatingApp.DTOs
 {
