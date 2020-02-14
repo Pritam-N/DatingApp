@@ -18,9 +18,9 @@ export class MemberDetailComponent implements OnInit {
   // galleryImages: NgxGalleryImage[];
   images = [];
   constructor(
-          private userService: UserService,
-          private alertify: AlertifyService,
-          private route: ActivatedRoute) { }
+    private userService: UserService,
+    private alertify: AlertifyService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -52,10 +52,20 @@ export class MemberDetailComponent implements OnInit {
 
   getImages() {
     const images = [];
-    for (const photo of this.user.photos) {
+    if (this.user.photos.length != 0) {
+      for (const photo of this.user.photos) {
+        images.push(
+          new Image(photo.id, {
+            img: photo.url,
+            extUrl: 'http://www.google.com'
+          })
+        );
+      }
+    }
+    else {
       images.push(
-        new Image(photo.id, {
-          img: photo.url,
+        new Image(0, {
+          img: '../../../assets/user.png',
           extUrl: 'http://www.google.com'
         })
       );
