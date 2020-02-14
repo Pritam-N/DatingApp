@@ -9,6 +9,7 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { ListResolver } from './_resolvers/list.resolver';
 
 export const appRoutes: Routes = [
     // ordering is important
@@ -26,7 +27,8 @@ export const appRoutes: Routes = [
                     resolve: {user: MemberEditResolver},
                     canDeactivate: [PreventUnsavedChanges]},
             { path: 'messages', component: ListsComponent},
-            { path: 'list', component: ListsComponent }
+            { path: 'list', component: ListsComponent,
+                    resolve: {users: ListResolver} }
         ]
     },
     // if nothing matches, redirect to home
