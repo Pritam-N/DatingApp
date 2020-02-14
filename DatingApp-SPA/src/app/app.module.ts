@@ -35,6 +35,7 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { DateAgoPipe } from './_pipes/dateAgo.pipe';
+import { ListResolver } from './_resolvers/list.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -88,7 +89,8 @@ export function tokenGetter() {
       MemberDetailResolver,
       MemberListResolver,
       MemberEditResolver,
-      PreventUnsavedChanges
+      PreventUnsavedChanges,
+      ListResolver
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
    ],
    bootstrap: [

@@ -13,5 +13,23 @@ namespace DatingApp.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Like> Likes { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder){
+            builder.Entity<Like>()
+                .HasKey(s => new {s.LikerId, s.LikeeId});
+            
+            builder.Entity<Like>()
+                .HasOne(s => s.Likee)
+                .WithMany(s => s.Likers)
+                .HasForeignKey(s => s.LikeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Like>()
+                .HasOne(s => s.Liker)
+                .WithMany(s => s.Likees)
+                .HasForeignKey(s => s.LikerId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }
