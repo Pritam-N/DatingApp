@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatingApp.Helpers;
 using DatingApp.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,9 +31,47 @@ namespace DatingApp.Data
             return await _context.Users.Include(s => s.Photos).FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            return await _context.Users.Include(s => s.Photos).ToListAsync();
+            var users = _context.Users.Include(s => s.Photos).OrderByDescending(s => s.LastActive)
+                            .AsQueryable();
+
+            users = users.Where(s => s.Id != userParams.UsrId);
+
+            users = users.Where(s => s.Gender == userParams.Gender);
+
+            // if(userParams.MinAge != 14 || userParams.MaxAge != 40) 
+            // {
+            //     var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            //     var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
+
+            //     users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
+            // }
+
+            if(userParams.MaxAge > 100)
+            {
+                userParams.MaxAge = 100;
+            }
+
+            var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
+
+            users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
+
+            if(!string.IsNullOrEmpty(userParams.Orderby))
+            {
+                switch (userParams.Orderby)
+                {
+                    case "created":
+                        users = users.OrderByDescending(s => s.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(s => s.LastActive);
+                        break;
+                }
+            }
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> SaveAll()

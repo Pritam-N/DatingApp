@@ -49,6 +49,7 @@ namespace DatingApp
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<JWTTokenGenerator>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddScoped<LogUserActivity>();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

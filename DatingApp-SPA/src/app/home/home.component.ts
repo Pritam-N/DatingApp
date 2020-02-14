@@ -26,15 +26,15 @@ export class HomeComponent implements OnInit {
     // this.loadUsers();
   }
 
-  goToAbout(){
-    document.querySelector('#aboutUs').scrollIntoView({ 
-      behavior: 'smooth' 
+  goToAbout() {
+    document.querySelector('#aboutUs').scrollIntoView({
+      behavior: 'smooth'
     });
   }
 
-  goToSignupForm(){
-    document.querySelector('#signupForm').scrollIntoView({ 
-      behavior: 'smooth' 
+  goToSignupForm() {
+    document.querySelector('#signupForm').scrollIntoView({
+      behavior: 'smooth'
     });
   }
 
@@ -42,13 +42,13 @@ export class HomeComponent implements OnInit {
     this.registerMode = true;
   }
 
-  loadUsers() {
-    this.userService.getUsers().subscribe((users: User[]) => {
-      this.users = users;
-    }, error => {
-      this.alertify.error(error);
-    }); 
-  }
+  // loadUsers() {
+  //   this.userService.getUsers().subscribe((users: User[]) => {
+  //     this.users = users;
+  //   }, error => {
+  //     this.alertify.error(error);
+  //   });
+  // }
 
   getValues() {
     this.http.get('http://localhost:5000/api/values').subscribe(response => {
