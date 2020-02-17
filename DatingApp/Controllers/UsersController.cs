@@ -32,7 +32,7 @@ namespace DatingApp.Controllers
             var currrentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userFromRepo = await _repository.GetUser(currrentUserId);
 
-            userParams.UsrId = currrentUserId;
+            userParams.UserId = currrentUserId;
 
             if( string.IsNullOrEmpty(userParams.Gender)) {
                 userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
