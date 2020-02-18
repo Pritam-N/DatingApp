@@ -10,6 +10,8 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { ListResolver } from './_resolvers/list.resolver';
+import { MessagesResolver } from './_resolvers/messages.resolver';
+import { MessagesComponent } from './messages/messages.component';
 
 export const appRoutes: Routes = [
     // ordering is important
@@ -26,7 +28,8 @@ export const appRoutes: Routes = [
             { path: 'member/edit', component: MemberEditComponent,
                     resolve: {user: MemberEditResolver},
                     canDeactivate: [PreventUnsavedChanges]},
-            { path: 'messages', component: ListsComponent},
+            { path: 'messages', component: MessagesComponent,
+                    resolve: {messages: MessagesResolver}},
             { path: 'list', component: ListsComponent,
                     resolve: {users: ListResolver} }
         ]

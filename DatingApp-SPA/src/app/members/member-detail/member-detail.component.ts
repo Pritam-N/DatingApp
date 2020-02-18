@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_thirdpartyservices/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Image } from '@ks89/angular-modal-gallery';
+import { TabsetComponent } from 'ngx-bootstrap';
 // import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 @Component({
@@ -13,7 +14,7 @@ import { Image } from '@ks89/angular-modal-gallery';
 })
 export class MemberDetailComponent implements OnInit {
   user: User;
-
+  @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
   // galleryOptions: NgxGalleryOptions[];
   // galleryImages: NgxGalleryImage[];
   images = [];
@@ -26,7 +27,10 @@ export class MemberDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
-
+    this.route.queryParams.subscribe(params => {
+      const selectedTab = params.tab;
+      this.memberTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
+    });
     // this.galleryOptions = [
     //   {
     //     width: '500px',
@@ -52,7 +56,8 @@ export class MemberDetailComponent implements OnInit {
 
   getImages() {
     const images = [];
-    if (this.user.photos.length != 0) {
+    // tslint:disable-next-line: triple-equals
+    if (this.user.photos.length !== 0) {
       for (const photo of this.user.photos) {
         images.push(
           new Image(photo.id, {
@@ -61,8 +66,7 @@ export class MemberDetailComponent implements OnInit {
           })
         );
       }
-    }
-    else {
+    } else {
       images.push(
         new Image(0, {
           img: '../../../assets/user.png',
@@ -71,5 +75,9 @@ export class MemberDetailComponent implements OnInit {
       );
     }
     return images;
+  }
+
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
   }
 }

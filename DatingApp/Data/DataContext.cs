@@ -14,6 +14,7 @@ namespace DatingApp.Data
         public DbSet<State> States { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder){
             builder.Entity<Like>()
@@ -29,6 +30,16 @@ namespace DatingApp.Data
                 .HasOne(s => s.Liker)
                 .WithMany(s => s.Likees)
                 .HasForeignKey(s => s.LikerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(s => s.Sender)
+                .WithMany(s => s.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(s => s.Recipient)
+                .WithMany(s => s.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
