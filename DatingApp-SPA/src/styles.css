@@ -46,7 +46,7 @@
   
   .member-tabset > .tab-content {
     margin-top: -3px;
-    background-color: #fff;
+    /* background-color: #fff; */
     border: 0;
     border-top: 1px solid #eee;
     padding: 15px 0;
@@ -60,3 +60,11 @@
   .custom-container{
     min-height: calc(100vh - 145px);
   }
+  
+.wrapper-container{
+  background: linear-gradient(45deg, lightgray, white, white, lightgray);
+}
+.card, .form-control{
+  background: inherit;
+  color: black;
+}

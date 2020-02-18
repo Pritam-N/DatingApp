@@ -1,3 +1,4 @@
+<div class="wrapper-container">
 <div class="container mt-3">
   <div class="row">
     <div class="col-sm-4">
@@ -10,7 +11,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-md-4">
       <div class="card">
         <img class="card-img-top img-thumbnail" src="{{photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
         <div class="card-body">
@@ -44,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-md-8">
       <div class="tab-panel">
         <tabset class="member-tabset">
           <tab heading="Edit Profile">
@@ -60,12 +61,48 @@
               [(ngModel)]="user.interests"></textarea>
               <h4>Location Details</h4>
               <div class="form-inline">
-                <label for="city">City</label>
-                <input type="text" class="form-control" name="city" [(ngModel)]="user.city">
-                <label for="state">State</label>
-                <input type="text" class="form-control" name="state" [(ngModel)]="user.state">
-                <label for="country">Country</label>
-                <input type="text" class="form-control" name="country" [(ngModel)]="user.country">
+                <!-- <div class="row">
+                    <div class="col-sm-2"> <label for="city">City</label></div>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="city" [(ngModel)]="user.city">
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-2"> <label for="state">State</label></div>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="state" [(ngModel)]="user.state">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-2"><label for="country">Country</label></div>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="country" [(ngModel)]="user.country">
+                  </div>
+                </div> -->
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend">
+                    <select class="custom-select" id="inputGroupSelect02">
+                      <option selected>Choose City</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div class="input-group-prepend">
+                    <select class="custom-select" id="inputGroupSelect02">
+                      <option selected>Choose State</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Choose Country</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
               </div>
             </form>            
           </tab>
@@ -77,4 +114,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>
