@@ -11,7 +11,7 @@
 .chat li {
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px dotted #B3A9A9;
+    /* border-bottom: 1px dotted #B3A9A9; */
 }
 
 .rounded-circle {
@@ -21,5 +21,45 @@
 
 .card-body {
     overflow-y: scroll;
-    height: 500px;
+    height: 330px;
 }
+.chat-content-body{
+    border: 1px solid gray;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 15px;
+}
+.chat-content-right-body{
+    border-radius: 10px 0px 10px 10px;
+    background-color: lightcyan;
+}
+.chat-content-left-body{
+    border-radius: 0px 10px 10px 10px;
+    background-color: thistle;
+}
+.card{
+    background: inherit;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    width: 10px;
+  }
+
+
+

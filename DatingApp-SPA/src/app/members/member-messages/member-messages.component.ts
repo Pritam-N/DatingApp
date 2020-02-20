@@ -17,7 +17,7 @@ export class MemberMessagesComponent implements OnInit {
   newMessage: any = {};
 
   constructor(private authService: AuthService, private userService: UserService,
-              private alertify: AlertifyService) { }
+    private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.loadMessages();
@@ -26,32 +26,32 @@ export class MemberMessagesComponent implements OnInit {
   loadMessages() {
     const currentUserId = +this.authService.decodedToken.nameid;
     this.userService.getMessageThread(this.authService.decodedToken.nameid, this.recipientId)
-    .pipe(
-      tap(messages => {
-        for (const message of messages) {
-          if (message.isRead === false && message.recipientId === currentUserId) {
-            this.userService.markAsread(currentUserId, message.id);
+      .pipe(
+        tap(messages => {
+          for (const message of messages) {
+            if (message.isRead === false && message.recipientId === currentUserId) {
+              this.userService.markAsread(currentUserId, message.id);
+            }
           }
+        })
+      )
+      .subscribe(
+        messages => {
+          this.messages = messages;
+        }, error => {
+          this.alertify.error(error);
         }
-      })
-    )
-    .subscribe(
-      messages => {
-        this.messages = messages;
-      }, error => {
-        this.alertify.error(error);
-      }
-    );
+      );
   }
 
   sendMessage() {
     this.newMessage.recipientId = this.recipientId;
     this.userService.sendMessage(this.authService.decodedToken.nameid, this.newMessage)
-    .subscribe( (message: Message) => {
-      this.messages.unshift(message);
-      this.newMessage.content = '';
-    }, error => {
-      this.alertify.error(error);
-    });
+      .subscribe((message: Message) => {
+        this.messages.push(message);
+        this.newMessage.content = '';
+      }, error => {
+        this.alertify.error(error);
+      });
   }
 }
