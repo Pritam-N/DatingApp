@@ -4,6 +4,7 @@ import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_thirdpartyservices/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination, PaginationResult } from 'src/app/_models/Pagination';
+
 @Component({
   selector: 'app-member-lists',
   templateUrl: './member-lists.component.html',

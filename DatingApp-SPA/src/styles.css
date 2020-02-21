@@ -58,5 +58,6 @@
   }
 
   .custom-container{
-    min-height: calc(100vh - 145px);
+    min-height: calc(100vh - 129px);
+    margin-top: -16px;
   }
