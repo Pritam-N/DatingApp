@@ -57,10 +57,20 @@
     overflow-x: hidden;
   }
 
+  .content-wrapper{
+    background: linear-gradient(-45deg, lightgray, white, lightgray);
+    padding: 15px 0px;
+  }
+
   .custom-container{
     min-height: calc(100vh - 145px);
   }
-  
+.right-content{
+    text-align: right;
+  }
+  .center-content{
+    text-align: center;
+  }
 .wrapper-container{
   background: linear-gradient(45deg, lightgray, white, white, lightgray);
 }

@@ -1,7 +1,7 @@
 .img-thumbnail {
     margin: 25px;
-    width: 85%;
-    height: 85%;
+    width: 75%;
+    height: 75%;
 }
 
 .card-body {
@@ -12,4 +12,76 @@
     padding: 15px 25px;
     background-color: #fff;
     border-top: none;
+    text-align: center;
 }
+.card-img-top{
+    text-align: center;
+}
+.tab-panel{
+    background-color: #fff;
+}
+tab{
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.message-tab{
+    overflow-y: hidden;
+}
+
+.info-wrapper{
+    height: 200px;
+    background: url(../../../assets/bckgr.jpg) center center;
+    background-size: cover;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    border-bottom: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.profile-image{
+    height: 80%;
+    width: 70%;
+    border: 2px solid royalblue;
+    border-radius: 50%;
+    margin-right: 5%;
+}
+.profile-text-section{
+    margin-top: 20px;
+}
+
+.profile-details{
+    position: relative;
+    top: -100px;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    border-top: 0;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    min-height: 220px;
+    height: 100%;
+    margin-top: 20px;
+}
+.profile-username{
+    margin-top: 30px;
+}
+.moved-up{
+    position: relative;
+    top: -75px;
+}
+
+@media only screen and (max-width: 768px) {
+    .profile-text-section {
+        padding-top: 20px;
+    }
+    .profile-image{
+        height: 200px;
+        width: 200px;
+    }
+    .profile-username{
+        margin: auto;
+    }
+    .profile-details{
+        padding: 0px 20px;
+    }
+  }
