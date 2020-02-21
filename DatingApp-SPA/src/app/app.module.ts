@@ -1,6 +1,6 @@
 import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule, TabsModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -38,6 +38,11 @@ import { DateAgoPipe } from './_pipes/dateAgo.pipe';
 import { ListResolver } from './_resolvers/list.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { moment } from 'ngx-bootstrap/chronos/test/chain';
+import { HttpCancelService } from './_services/http-cancel.service';
+import { ManageHttp } from './_interceptors/manage-http.interceptor';
+
+
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -83,6 +88,7 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       })
+      
    ],
    providers: [
       AuthService,
@@ -94,8 +100,12 @@ export function tokenGetter() {
       MemberEditResolver,
       PreventUnsavedChanges,
       ListResolver,
-      MessagesResolver
+      MessagesResolver,
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
+
+      // HttpCancelService,
+      // // { provide: HTTP_INTERCEPTORS, useFactory: ManageHttp, multi: true }
+      {provide: HTTP_INTERCEPTORS, useClass: HttpCancelService, multi: true}
    ],
    bootstrap: [
       AppComponent
