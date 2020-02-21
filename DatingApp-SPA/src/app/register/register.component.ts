@@ -5,6 +5,11 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
+import { CommonHelperService } from '../_services/common-helper.service';
+import { PaginationResult } from '../_models/Pagination';
+import { Cities } from '../_models/Cities';
+import { States } from '../_models/States';
+import { Countries } from '../_models/Countries';
 
 @Component({
   selector: 'app-register',
@@ -17,11 +22,16 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   validRegistrationDate = new Date();
-
+  _listCountries: Countries[];
+  _listStates: States[];
+  _listCities: Cities[];
+  // _countrySelected :boolean =  true;
+  // _stateSelected = true;
  constructor(private authService: AuthService,
               private alertify: AlertifyService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private commonService: CommonHelperService) {
                 this.validRegistrationDate.setUTCFullYear(this.validRegistrationDate.getUTCFullYear() - 14);
                }
 
@@ -36,7 +46,7 @@ export class RegisterComponent implements OnInit {
       containerClass: 'theme-red',
       maxDate: this.validRegistrationDate
     };
-
+    this.getAddressDetails();
     this.createRegisterForm();
   }
 
@@ -46,13 +56,15 @@ export class RegisterComponent implements OnInit {
       username: ['', Validators.required],
       commonname: ['', Validators.required],
       dob: [null, Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      country: ['', Validators.required],
+      city: ['0', Validators.required],
+      state: ['0', Validators.required],
+      country: ['0', Validators.required],
       password: ['',
               [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       confirmpassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator});
+    this.registerForm.get('state').disable();
+    this.registerForm.get('city').disable();
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -74,6 +86,38 @@ export class RegisterComponent implements OnInit {
         this.authService.login(this.user).subscribe(() => {
           this.router.navigate(['/members']);
         });
+      });
+    }
+  }
+
+  getAddressDetails() {
+    this.commonService.getCountries()
+    .subscribe((res: PaginationResult<Countries[]>) => {
+      this._listCountries = res.result;
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+  onCountrySelected(id: string) {
+    if (id !== '0') {
+      this.registerForm.get('state').enable();
+      this.commonService.getStates(id)
+      .subscribe((res: PaginationResult<States[]>) => {
+        this._listStates = res.result;
+        console.log(this._listStates);
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
+  }
+  onStateSelected(id: string) {
+    if (id !== '0') {
+      this.registerForm.get('city').enable();
+      this.commonService.getCities(id)
+      .subscribe((res: PaginationResult<Cities[]>) => {
+          this._listCities = res.result;
+      }, error => {
+        this.alertify.error(error);
       });
     }
   }
