@@ -5,6 +5,7 @@ import { User } from 'src/app/_models/user';
 import { Message } from 'src/app/_models/Message';
 import { AlertifyService } from 'src/app/_thirdpartyservices/alertify.service';
 import { tap } from 'rxjs/operators';
+import { MlService } from 'src/app/_services/ml.service';
 
 @Component({
   selector: 'app-member-messages',
@@ -17,7 +18,7 @@ export class MemberMessagesComponent implements OnInit {
   newMessage: any = {};
 
   constructor(private authService: AuthService, private userService: UserService,
-              private alertify: AlertifyService) { }
+ private alertify: AlertifyService, private mlService: MlService) { }
 
   ngOnInit() {
     this.loadMessages();
@@ -26,30 +27,40 @@ export class MemberMessagesComponent implements OnInit {
   loadMessages() {
     const currentUserId = +this.authService.decodedToken.nameid;
     this.userService.getMessageThread(this.authService.decodedToken.nameid, this.recipientId)
-    .pipe(
-      tap(messages => {
-        for (const message of messages) {
-          if (message.isRead === false && message.recipientId === currentUserId) {
-            this.userService.markAsread(currentUserId, message.id);
+      .pipe(
+        tap(messages => {
+          for (const message of messages) {
+            if (message.isRead === false && message.recipientId === currentUserId) {
+              this.userService.markAsread(currentUserId, message.id);
+            }
           }
+        })
+      )
+      .subscribe(
+        messages => {
+          this.messages = messages;
+        }, error => {
+          this.alertify.error(error);
         }
-      })
-    )
-    .subscribe(
-      messages => {
-        this.messages = messages;
-      }, error => {
-        this.alertify.error(error);
-      }
-    );
+      );
   }
 
   sendMessage() {
     this.newMessage.recipientId = this.recipientId;
     this.userService.sendMessage(this.authService.decodedToken.nameid, this.newMessage)
-    .subscribe( (message: Message) => {
-      this.messages.unshift(message);
-      this.newMessage.content = '';
+      .subscribe((message: Message) => {
+        this.messages.push(message);
+        this.newMessage.content = '';
+      }, error => {
+        this.alertify.error(error);
+      });
+  }
+
+  getPredictions() {
+    const message = this.newMessage.content;
+    console.log(message);
+    this.mlService.getSuggestion(message).subscribe((response) => {
+      console.log(response);
     }, error => {
       this.alertify.error(error);
     });

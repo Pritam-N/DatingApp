@@ -157,7 +157,7 @@ namespace DatingApp.Data
                                 .Include(s => s.Recipient).ThenInclude(s => s.Photos)
                                 .Where(s => s.RecipientId == userId && s.RecipientDeleted == false && s.SenderId == recipientId 
                                     || s.RecipientId == recipientId && s.SenderDeleted == false && s.SenderId == userId)
-                                .OrderByDescending(s => s.MessageSent)
+                              
                                 .ToListAsync();
             return messages;
         }
