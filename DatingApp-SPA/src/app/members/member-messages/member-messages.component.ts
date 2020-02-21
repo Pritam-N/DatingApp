@@ -5,6 +5,7 @@ import { User } from 'src/app/_models/user';
 import { Message } from 'src/app/_models/Message';
 import { AlertifyService } from 'src/app/_thirdpartyservices/alertify.service';
 import { tap } from 'rxjs/operators';
+import { MlService } from 'src/app/_services/ml.service';
 
 @Component({
   selector: 'app-member-messages',
@@ -17,7 +18,7 @@ export class MemberMessagesComponent implements OnInit {
   newMessage: any = {};
 
   constructor(private authService: AuthService, private userService: UserService,
-    private alertify: AlertifyService) { }
+ private alertify: AlertifyService, private mlService: MlService) { }
 
   ngOnInit() {
     this.loadMessages();
@@ -53,5 +54,15 @@ export class MemberMessagesComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
+  }
+
+  getPredictions() {
+    const message = this.newMessage.content;
+    console.log(message);
+    this.mlService.getSuggestion(message).subscribe((response) => {
+      console.log(response);
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }
