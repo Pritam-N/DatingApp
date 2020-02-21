@@ -10,10 +10,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
-        <div class="card-body">
+    <div class="col-md-4">
+      <div class='card'>
+        <img class='card-img-top img-thumbnail' src="{{photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
+        <div class='card-body'>
           <div>
             <strong>Location:</strong>
             <p>
@@ -38,15 +38,17 @@
               {{user.created | date: 'mediumDate'}}
             </p>
           </div>
-          <div class="card-footer">
-              <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save Changes</button>
+          <div class='card-footer'>
+
+            <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success">Save Changes</button> 
           </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-md-8">
       <div class="tab-panel">
         <tabset class="member-tabset">
+        
           <tab heading="Edit Profile">
             <form #editForm="ngForm" (ngSubmit)="updateUser()" id="editForm">
               <h4>Description</h4>
@@ -59,13 +61,34 @@
               <textarea name="interests" rows="6" class="form-control" 
               [(ngModel)]="user.interests"></textarea>
               <h4>Location Details</h4>
-              <div class="form-inline">
-                <label for="city">City</label>
-                <input type="text" class="form-control" name="city" [(ngModel)]="user.city">
-                <label for="state">State</label>
-                <input type="text" class="form-control" name="state" [(ngModel)]="user.state">
-                <label for="country">Country</label>
-                <input type="text" class="form-control" name="country" [(ngModel)]="user.country">
+              <div>
+                <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="form-control" name="country"  #countrySelected [(ngModel)]="user.country" (change)='onCountrySelected(countrySelected.value)'>
+                          <option *ngFor="let country of _listCountries" [selected]="user.country === country.name" [value]="country.name">{{country.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="state">State</label>
+                        <select  class="form-control" name="state"  #stateSelected [(ngModel)]="user.state" (change)='onStateSelected(stateSelected.value)'>
+                          <option   *ngFor="let state of _listStates" [selected]="user.state === state.name" [value]="state.name">{{state.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="city">City</label>
+                        <select class="form-control" name="city" [(ngModel)]="user.city">
+                          <option *ngFor="let city of _listCities" [selected]="user.city === city.name" [value]="city.name">{{city.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                </div>
               </div>
             </form>            
           </tab>

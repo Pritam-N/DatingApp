@@ -10,6 +10,7 @@
 
 .card-footer {
     padding: 15px 25px;
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: inherit;
     border-top: none;
 }
