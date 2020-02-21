@@ -1,70 +1,76 @@
-<div class="container mt-3">
-  <div class="row">
-    <h1>{{user.commonName}}'s Profile</h1>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{user.photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
-        <div class="card-body">
-          <div>
-            <strong>Location:</strong>
-            <p>
-              {{user.city}}, {{user.state}}, {{user.country}}
-            </p>
+<div class="content-wrapper">
+  <div class="container custom-container">
+    <div class="info-wrapper"></div>
+    <div class="profile-details">
+      <div class="row">
+        <div class="col-md-3 col-12 center-content">
+          <img class="profile-image" src="{{user.photoUrl || '../../../../../assets/user.png'}}"
+            alt="{{user.commonName}}">
+        </div>
+        <div class="col-md-9 col-12">
+          <div class="profile-username">
+            <h2>{{user.commonName}}'s Profile</h2>
           </div>
-          <div>
-            <strong>Age:</strong>
-            <p>
-              {{user.age}}
-            </p>
-          </div>
-          <div>
-            <strong>Last Active:</strong>
-            <p>
-              {{user.lastActive | dateAgo}}
-            </p>
-          </div>
-          <div>
-            <strong>Member Since:</strong>
-            <p>
-              {{user.created | date}}
-            </p>
-          </div>
-          <div class="card-footer">
-            <div class="btn-group d-flex">
-              <button class="btn btn-primary w-100">Like</button>
-              <button class="btn btn-success w-100" (click)="selectTab(3)">Message</button>
+          <div class="row profile-text-section">
+            <div class="col-sm-6">
+              <strong>
+                Location:
+              </strong>
+              <p>
+                {{user.city}}, {{user.state}}, {{user.country}}
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <strong>Age:</strong>
+                {{user.age}}
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <strong>Last Active:</strong>
+                {{user.lastActive | dateAgo}}
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <strong>Member Since:</strong>
+                {{user.created | date}}
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
-      <div class="tab-panel">
-        <tabset class="member-tabset" #memberTabs>
-          <tab heading="About {{user.commonName}}">
-            <h4>Description</h4>
-            <p>{{user.introduction}}</p>
-            <h4>Looking For</h4>
-            <p>
-              {{user.lookingFor}}
-            </p>
-          </tab>
-          <tab heading="Interests">
-            <h4>Interests</h4>
-            <p>{{user.interests}}</p>
-          </tab>
-          <tab heading="Photos">
-            <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery> -->
-            <!-- <ks-carousel [id]="105" [images]="images" [playConfig]="{autoPlay: false, interval: 5000, pauseOnHover: true}"></ks-carousel> -->
-            <ks-carousel [id]="0" [images]="images" [carouselConfig]="{maxWidth: '766px', maxHeight: '400px', showArrows: true, objectFit: 'cover', keyboardEnable: true, modalGalleryEnable: true, legacyIE11Mode: false}"
-              [previewConfig]="{visible: true, number: 5, size: {width: 'auto', height: '100px'}}"></ks-carousel>
-          </tab>
-          <tab heading="Messages">
-            <app-member-messages [recipientId]="user.id"></app-member-messages>
-          </tab>
-        </tabset>
+  </div>
+
+  <div class="container moved-up">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="tab-panel">
+          <tabset class="member-tabset" #memberTabs>
+            <tab heading="About {{user.commonName}}">
+              <h4>Description</h4>
+              <p>{{user.introduction}}</p>
+              <h4>Looking For</h4>
+              <p>
+                {{user.lookingFor}}
+              </p>
+            </tab>
+            <tab heading="Interests">
+              <h4>Interests</h4>
+              <p>{{user.interests}}</p>
+            </tab>
+            <tab heading="Photos">
+              <ks-carousel [id]="0" [images]="images"
+                [carouselConfig]="{maxWidth: '766px', maxHeight: '400px', showArrows: true, objectFit: 'cover', keyboardEnable: true, modalGalleryEnable: true, legacyIE11Mode: false}"
+                [previewConfig]="{visible: true, number: 5, size: {width: 'auto', height: '100px'}}"></ks-carousel>
+            </tab>
+            <tab heading="Messages" class="message-tab">
+              <app-member-messages [recipientId]="user.id"></app-member-messages>
+            </tab>
+          </tabset>
+        </div>
       </div>
     </div>
   </div>
