@@ -38,10 +38,14 @@ import { DateAgoPipe } from './_pipes/dateAgo.pipe';
 import { ListResolver } from './_resolvers/list.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+
 import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { HttpCancelService } from './_services/http-cancel.service';
 import { ManageHttp } from './_interceptors/manage-http.interceptor';
 
+
+
+import { MlService } from './_services/ml.service';
 
 
 export function tokenGetter() {
@@ -84,7 +88,7 @@ export function tokenGetter() {
       JwtModule.forRoot({
          config: {
             tokenGetter,
-            whitelistedDomains: ['localhost:5000'],
+            whitelistedDomains: ['localhost:5000', 'localhost:5001'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       })
@@ -101,6 +105,9 @@ export function tokenGetter() {
       PreventUnsavedChanges,
       ListResolver,
       MessagesResolver,
+
+      MlService
+
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
 
       // HttpCancelService,
