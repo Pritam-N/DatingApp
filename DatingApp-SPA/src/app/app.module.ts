@@ -11,6 +11,11 @@ import 'hammerjs';
 import 'mousetrap';
 import {GalleryModule} from '@ks89/angular-modal-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -39,6 +44,7 @@ import { ListResolver } from './_resolvers/list.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { MlService } from './_services/ml.service';
+import { AddressFormComponent } from './value/address-form/address-form.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -59,7 +65,8 @@ export function tokenGetter() {
       MemberEditComponent,
       PhotoEditorComponent,
       DateAgoPipe,
-      MemberMessagesComponent
+      MemberMessagesComponent,
+      AddressFormComponent
    ],
    imports: [
       BrowserModule,
@@ -83,7 +90,12 @@ export function tokenGetter() {
             whitelistedDomains: ['localhost:5000', 'localhost:5001'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      })
+      }),
+      MatInputModule,
+      MatButtonModule,
+      MatSelectModule,
+      MatRadioModule,
+      MatCardModule
    ],
    providers: [
       AuthService,

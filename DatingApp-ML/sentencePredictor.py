@@ -24,7 +24,7 @@ def predict(text):
     outputs = model(tokens_tensor)
     predictions = outputs[0]
     predictions[0][0][0]
-    sorted_length, sorted_index = torch.sort(predictions[0 ,-1, :], dim = 0, descending=True)
+    _, sorted_index = torch.sort(predictions[0 ,-1, :], dim = 0, descending=True)
     new_sentence_order = sorted_index.tolist()
     predicted_index = new_sentence_order[0]
     predicted_text = tokenizer.decode(indexed_tokens + [predicted_index])

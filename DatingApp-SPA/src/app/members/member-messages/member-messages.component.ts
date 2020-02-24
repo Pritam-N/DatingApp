@@ -18,7 +18,7 @@ export class MemberMessagesComponent implements OnInit {
   newMessage: any = {};
 
   constructor(private authService: AuthService, private userService: UserService,
- private alertify: AlertifyService, private mlService: MlService) { }
+              private alertify: AlertifyService, private mlService: MlService) { }
 
   ngOnInit() {
     this.loadMessages();
