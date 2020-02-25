@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -95,7 +96,8 @@ export function tokenGetter() {
       MatButtonModule,
       MatSelectModule,
       MatRadioModule,
-      MatCardModule
+      MatCardModule,
+      MatSliderModule
    ],
    providers: [
       AuthService,
