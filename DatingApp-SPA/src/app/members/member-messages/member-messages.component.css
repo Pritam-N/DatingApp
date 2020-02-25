@@ -21,7 +21,7 @@
 
 .card-body {
     overflow-y: scroll;
-    height: 330px;
+    height: 400px;
 }
 .chat-content-body{
     border: 1px solid gray;
@@ -39,6 +39,25 @@
 }
 .card{
     background: inherit;
+}
+
+#contentTextArea{
+    position: absolute;
+    top: 10%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.2);
+    resize: none;
+}
+#placeTextArea{
+    position: absolute;
+    top: 10%;
+    left: 0;
+}
+.btn-send{
+    margin: 20px 5px;
+}
+.card-footer{
+    position: relative;
 }
 
 ::-webkit-scrollbar {

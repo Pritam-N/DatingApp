@@ -24,6 +24,19 @@ namespace DatingApp.Data
                 }
                 context.SaveChanges();
             }
+            if(!context.FeaturedUsers.Any()) {
+                var usersdata = System.IO.File.ReadAllText("Data/FeaturedUserSeed.json");
+                var users = JsonConvert.DeserializeObject<List<FeaturedUsers>>(usersdata);
+                foreach(var user in users){
+                    byte[] passwordHash, passwordSalt;
+                    (passwordHash, passwordSalt) = CreatepasswordHash("password");
+                    user.PassowrdHash = passwordHash;
+                    user.PasswordSalt = passwordSalt;
+                    user.UserName = user.UserName.ToLower();
+                    context.FeaturedUsers.Add(user);
+                }
+                context.SaveChanges();
+            }
             using(var transaction = context.Database.BeginTransaction()) {
                 if(!context.Countries.Any()) {
                     var countrydata = System.IO.File.ReadAllText("Data/countries.json");

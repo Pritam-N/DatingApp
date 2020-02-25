@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   name = 'World';
   registerMode = false;
   values: any;
-  users: any;
+  featuredUsers: any;
 
   constructor(
     private http: HttpClient,
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getValues();
-    // this.loadUsers();
+    this.getFeaturedUsers();
   }
 
   goToAbout() {
@@ -42,17 +42,17 @@ export class HomeComponent implements OnInit {
     this.registerMode = true;
   }
 
-  // loadUsers() {
-  //   this.userService.getUsers().subscribe((users: User[]) => {
-  //     this.users = users;
-  //   }, error => {
-  //     this.alertify.error(error);
-  //   });
-  // }
-
   getValues() {
     this.http.get('http://localhost:5000/api/values').subscribe(response => {
       this.values = response;
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  getFeaturedUsers() {
+    this.http.get('http://localhost:5000/api/FeaturedUsers').subscribe(response => {
+      this.featuredUsers = response;
     }, error => {
       console.log(error);
     });
