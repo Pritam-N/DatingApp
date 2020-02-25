@@ -6,3 +6,7 @@
 .last-active-size{
     padding: 0.50rem 0.80rem;
 }
+
+mat-slider {
+    width: 235px;
+}

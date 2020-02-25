@@ -38,6 +38,14 @@ export class MemberListsComponent implements OnInit {
     this.loadUsers();
   }
 
+  formatLabel(value: number) {
+    if (value > 100) {
+      return Math.round(value / 100);
+    }
+
+    return value;
+  }
+
   loadUsers() {
     this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
     .subscribe((res: PaginationResult<User[]>) => {
