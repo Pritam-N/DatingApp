@@ -11,6 +11,12 @@ import 'hammerjs';
 import 'mousetrap';
 import {GalleryModule} from '@ks89/angular-modal-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -46,7 +52,11 @@ import { HttpCancelService } from './_services/http-cancel.service';
 
 
 import { MlService } from './_services/ml.service';
+
 import { ManageHttp } from './_interceptors/manage-http.interceptor';
+
+
+import { AddressFormComponent } from './value/address-form/address-form.component';
 
 
 export function tokenGetter() {
@@ -68,7 +78,8 @@ export function tokenGetter() {
       MemberEditComponent,
       PhotoEditorComponent,
       DateAgoPipe,
-      MemberMessagesComponent
+      MemberMessagesComponent,
+      AddressFormComponent
    ],
    imports: [
       BrowserModule,
@@ -92,7 +103,13 @@ export function tokenGetter() {
             whitelistedDomains: ['localhost:5000', 'localhost:5001'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      })
+      }),
+      MatInputModule,
+      MatButtonModule,
+      MatSelectModule,
+      MatRadioModule,
+      MatCardModule,
+      MatSliderModule
    ],
    providers: [
       AuthService,

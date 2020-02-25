@@ -52,18 +52,21 @@
 
   <div class="card-footer">
     <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
-      <div class="input-group">
-<input type="text" 
-        class="form-control input-sm" 
-        placeholder="send a private message"
-        [(ngModel)]="newMessage.content"
-        name="content" required (keyup)="getPredictions()">
-        <div class="input-group-append">
-          <button class="btn btn-primary" [disabled]="!messageForm.valid">
+
+      <div class="row">
+        <div class="col-11">
+          <textarea #placeTextArea class="form-control" id="placeTextArea" placeholder="Send private message here..."></textarea>
+          <textarea #contentTextArea class="form-control" type="text" id="contentTextArea" [(ngModel)]="newMessage.content"
+            name="content" required (keyup)="getPredictions()"></textarea>
+        </div>
+        <div class="col-1">
+          <button class="btn btn-primary btn-send" [disabled]="!messageForm.valid">
             <i class="fa fa-paper-plane"></i>
           </button>
         </div>
       </div>
+
+
     </form>
   </div>
 </div>

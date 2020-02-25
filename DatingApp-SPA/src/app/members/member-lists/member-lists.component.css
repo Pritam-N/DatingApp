@@ -1,0 +1,12 @@
+.gradient-wrapper-container {
+    background: linear-gradient(45deg, lightgray, white, white, lightgray);
+    margin-top:-7px;
+}
+
+.last-active-size{
+    padding: 0.50rem 0.80rem;
+}
+
+mat-slider {
+    width: 235px;
+}

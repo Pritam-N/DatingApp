@@ -63,7 +63,8 @@
   }
 
   .custom-container{
-    min-height: calc(100vh - 145px);
+    min-height: calc(100vh - 129px);
+    margin-top: -16px;
   }
 .right-content{
     text-align: right;
@@ -78,3 +79,6 @@
   background: inherit;
   color: black;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
