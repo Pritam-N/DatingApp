@@ -30,16 +30,7 @@
   </div>
 </div>
 
-<ng-template #template>
-  <h4>Edgar Dunn</h4>
-  <!-- <h5>Bordelonville, Dominica</h5> -->
-  <hr class="hr-user-details" />
-  <p>
-    Mollit velit sit fugiat cillum magna amet sit voluptate labore excepteur deserunt nostrud nostrud exercitation.
-  </p>
-</ng-template>
-
-<div class="featured-user-wrapper">
+<div class="featured-user-wrapper" *ngIf="featuredUsers != null">
   <div class="container">
     <div class="row text-center">
 
@@ -49,36 +40,97 @@
         </h3>
       </div>
 
+      <!-- <div *ngFor="let item of featuredUsers;index as i">
+        <div class="col-md-4" *ngIf="i < 3">
+          <img src='{{item.photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template1" [delay]="300"/>
+        </div>
+      </div> -->
 
+      <ng-template #template0>
+        <h4>{{featuredUsers[0].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[0].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/27.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300"/>
+        <img src='{{featuredUsers[0].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template0" [delay]="300"/>
       </div>
+      <ng-template #template1>
+        <h4>{{featuredUsers[1].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[1].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/3.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[1].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template1" [delay]="300" />
       </div>
+      <ng-template #template2>
+        <h4>{{featuredUsers[2].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[2].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/27.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[2].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template2" [delay]="300" />
       </div>
 
       <div class="col-md-2">
       </div>
+      <ng-template #template3>
+        <h4>{{featuredUsers[3].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[3].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/2.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[3].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template3" [delay]="300" />
       </div>
+      <ng-template #template4>
+        <h4>{{featuredUsers[4].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[4].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/men/3.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[4].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template4" [delay]="300" />
       </div>
       <div class="col-md-2">
       </div>
 
+      <ng-template #template5>
+        <h4>{{featuredUsers[5].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[5].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/3.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[5].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template5" [delay]="300" />
       </div>
+      <ng-template #template6>
+        <h4>{{featuredUsers[6].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[6].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/women/27.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[6].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template6" [delay]="300" />
       </div>
+      <ng-template #template7>
+        <h4>{{featuredUsers[7].commonName}}</h4>
+        <hr class="hr-user-details" />
+        <p>
+          {{featuredUsers[7].interests}}
+        </p>
+      </ng-template>
       <div class="col-md-4">
-        <img src='https://randomuser.me/api/portraits/men/3.jpg' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template" [delay]="300" />
+        <img src='{{featuredUsers[7].photo}}' alt='profile pic' class='img img-responsive img-circle img-profile-pic' [tooltip]="template7" [delay]="300" />
       </div>
 
     </div>

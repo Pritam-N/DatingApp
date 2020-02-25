@@ -85,6 +85,12 @@ namespace DatingApp.Data
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<List<FeaturedUsers>> GetFeaturedUsers()
+        {
+            var users = _context.FeaturedUsers.OrderByDescending(s => s.LastActive).ToListAsync();
+            return await users;
+        }
+
         private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers) 
         {
             var user = await _context.Users.Include(s => s.Likers).Include(s => s.Likees)

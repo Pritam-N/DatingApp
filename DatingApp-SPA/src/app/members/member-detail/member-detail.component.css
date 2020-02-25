@@ -21,8 +21,8 @@
     background-color: #fff;
 }
 tab{
-    height: 400px;
-    max-height: 400px;
+    height: 500px;
+    max-height: 500px;
     overflow-y: auto;
 }
 .message-tab{
@@ -40,11 +40,12 @@ tab{
     border-bottom-right-radius: 0px;
 }
 .profile-image{
-    height: 80%;
-    width: 70%;
+    height: 160px;
+    width: 160px;
     border: 2px solid royalblue;
     border-radius: 50%;
     margin-right: 5%;
+    box-shadow: 5px 5px 5px grey;
 }
 .profile-text-section{
     margin-top: 20px;
@@ -69,6 +70,9 @@ tab{
     position: relative;
     top: -75px;
 }
+
+
+
 
 @media only screen and (max-width: 768px) {
     .profile-text-section {
