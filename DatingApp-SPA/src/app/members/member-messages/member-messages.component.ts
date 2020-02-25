@@ -24,6 +24,7 @@ export class MemberMessagesComponent implements OnInit, AfterViewInit {
 
   }
 
+
   ngOnInit() {
     this.loadMessages();
   }
