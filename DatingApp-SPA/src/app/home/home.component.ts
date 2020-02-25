@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../_services/user.service';
 import { User } from '../_models/user';
 import { AlertifyService } from '../_thirdpartyservices/alertify.service';
+import { CommonHelperService } from '../_services/common-helper.service';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,12 @@ export class HomeComponent implements OnInit {
   values: any;
   users: any;
 
+  model: any = {};
   constructor(
     private http: HttpClient,
     private userService: UserService,
     private alertify: AlertifyService,
+    private commonService: CommonHelperService
     ) { }
 
   ngOnInit() {
@@ -60,5 +63,12 @@ export class HomeComponent implements OnInit {
 
   cancelRegisterMode(registerMode: boolean) {
     this.registerMode = registerMode;
+  }
+  contact() {
+    if (this.model.senderEmail && this.model.message) {
+      this.commonService.sendMessage(this.model).subscribe(() => {
+        console.log(this.model);
+      });
+    }
   }
 }

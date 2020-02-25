@@ -1,29 +1,35 @@
+
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptor, HttpErrorResponse, HTTP_INTERCEPTORS, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { catchError, takeUntil, delay } from 'rxjs/operators';
+import { throwError, Observable, Subject } from 'rxjs';
 import { Router, ActivationEnd } from '@angular/router';
-
-import { takeUntil } from 'rxjs/operators';
 import { HttpCancelService } from '../_services/http-cancel.service';
-export class ManageHttp implements HttpInterceptor {
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
-    constructor(router: Router,
-                private httpCancelService: HttpCancelService) {
-        router.events.subscribe(event => {
-          // An event triggered at the end of the activation part of the Resolve phase of routing.
-          if (event instanceof ActivationEnd) {
-            // Cancel pending calls
-            this.httpCancelService.cancelPendingRequests();
-          }
-        });
+@Injectable()
+
+
+export class ManageHttp implements HttpInterceptor{
+    sameUrlReq: boolean;
+    constructor( private httpCancelService: HttpCancelService ) {
+            // router.events.subscribe(event => {
+            //     // An event triggered at the end of the activation part of the Resolve phase of routing.
+            //     if (event instanceof ActivationEnd) {
+            //         this.httpCancelService.cancelPendingRequests();
+            //     }
+            // });
     }
-    intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-        console.log(req);
-        return next.handle(req).pipe(takeUntil(this.httpCancelService.onCancelPendingRequests()))
-      }
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+            this.sameUrlReq = this.httpCancelService.SavePrevRequest(req);
+            if (this.sameUrlReq) {
+                this.httpCancelService.cancelPendingRequests();
+            }
+            return next.handle(req).pipe(takeUntil(this.httpCancelService.onCancelPendingRequests()));
+    }
 }
+// export const HttpInterceptorProvider = {
+//     provide: HTTP_INTERCEPTORS,
+//     useClass: ManageHttp,
+//     multi: true
+// };

@@ -41,11 +41,12 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
 
 import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { HttpCancelService } from './_services/http-cancel.service';
-import { ManageHttp } from './_interceptors/manage-http.interceptor';
+
 
 
 
 import { MlService } from './_services/ml.service';
+import { ManageHttp } from './_interceptors/manage-http.interceptor';
 
 
 export function tokenGetter() {
@@ -92,7 +93,6 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       })
-      
    ],
    providers: [
       AuthService,
@@ -106,13 +106,13 @@ export function tokenGetter() {
       ListResolver,
       MessagesResolver,
 
-      MlService
+      MlService,
 
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
 
-      // HttpCancelService,
-      // // { provide: HTTP_INTERCEPTORS, useFactory: ManageHttp, multi: true }
-      {provide: HTTP_INTERCEPTORS, useClass: HttpCancelService, multi: true}
+      HttpCancelService,
+       { provide: HTTP_INTERCEPTORS, useClass: ManageHttp, multi: true }
+      //{provide: HTTP_INTERCEPTORS, useClass: HttpCancelService, multi: true}
    ],
    bootstrap: [
       AppComponent

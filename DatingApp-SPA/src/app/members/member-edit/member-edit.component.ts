@@ -48,7 +48,8 @@ export class MemberEditComponent implements OnInit {
     this.getAddressDetails(this.user);
   }
   onCountrySelected(id: string) {
-    this.commonService.getStates(this.user.country)
+    this.user.state = '0';
+    this.commonService.getStates(id)
     .subscribe((res: PaginationResult<States[]>) => {
       this._listStates = res.result;
     }, error => {
@@ -57,7 +58,8 @@ export class MemberEditComponent implements OnInit {
   }
 
   onStateSelected(id: string) {
-    this.commonService.getCities(this.user.state)
+    this.user.city = '0';
+    this.commonService.getCities(id)
     .subscribe((res: PaginationResult<Cities[]>) => {
         this._listCities = res.result;
     }, error => {

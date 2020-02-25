@@ -12,11 +12,19 @@ import { PaginationResult } from '../_models/Pagination';
   providedIn: 'root'
 })
 export class CommonHelperService {
-  baseUrl: string;
  
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl + 'common/';
    }
+  baseUrl: string;
+  sendMessage(model: any) {
+    console.log(model);
+    return this.http.post(this.baseUrl + 'contactMessage', model).pipe(
+      map((response: any) => {
+          
+      })
+    );
+  }
   getStates(id: string): Observable<PaginationResult<States[]>> {
     const paginatedResult: PaginationResult<States[]> = new PaginationResult<States[]>();
     return this.http.get<States[]>(this.baseUrl + 'stateList/' + id, { observe: 'response'})

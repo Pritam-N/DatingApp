@@ -30,6 +30,7 @@ namespace DatingApp.Helpers
                     opt.MapFrom(u => u.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
                 .ForMember(s => s.RecipientPhotoUrl, opt => 
                     opt.MapFrom(u => u.Recipient.Photos.FirstOrDefault(p => p.IsMain).Url));
+             CreateMap<ContatctUsMessageDto, ContactUs>();
         }
     }
 }
