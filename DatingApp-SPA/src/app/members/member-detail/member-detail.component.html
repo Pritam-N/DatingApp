@@ -1,48 +1,3 @@
-<!-- <div class="container custom-container">
-    <div class="info-wrapper"></div>
-    <div class="profile-details">
-      <div class="row">
-        <div class="col-md-3 col-12 center-content">
-          <img class="profile-image" src="{{user.photoUrl || '../../../../../assets/user.png'}}"
-            alt="{{user.commonName}}">
-        </div>
-        <div class="col-md-9 col-12">
-          <div class="profile-username">
-            <h2>{{user.commonName}}'s Profile</h2>
-          </div>
-          <div class="row profile-text-section">
-            <div class="col-sm-6">
-              <strong>
-                Location:
-              </strong>
-              <p>
-                {{user.city}}, {{user.state}}, {{user.country}}
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <p>
-                <strong>Age:</strong>
-                {{user.age}}
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <p>
-                <strong>Last Active:</strong>
-                {{user.lastActive | dateAgo}}
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <p>
-                <strong>Member Since:</strong>
-                {{user.created | date}}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
 <div class="cover-pic">
   <div class="cover-pic-overlay">
   </div>
@@ -52,10 +7,36 @@
     <div class="col-md-4 col-12 center-content">
       <img class="profile-image" src="{{user.photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
     </div>
-    <div class="col-md-8 col-12" style="color: white;">
+    <div class="col-md-8 col-12">
       <!-- {{user | json}} -->
-      <h2>{{user.commonName}}</h2>
-      <h4>{{user.city}}, {{user.state}}, {{user.country}}</h4>
+      <div class="row">
+        <div class="col-12 profile-name">
+          <h2>{{user.commonName}}</h2>
+          <h4>{{user.city}}, {{user.state}}, {{user.country}}</h4>
+        </div>
+        <div class="col-12 profile-highlight">
+          <div class="row">
+            <div class="col-sm-4 col-12">
+              <p>
+                <strong>Age:</strong>
+                {{user.age}}
+              </p>
+            </div>
+            <div class="col-sm-4 col-12">
+              <p>
+                <strong>Last Active:</strong>
+                {{user.lastActive | dateAgo}}
+              </p>
+            </div>
+            <div class="col-sm-4 col-12">
+              <p>
+                <strong>Member Since:</strong>
+                {{user.created | date}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

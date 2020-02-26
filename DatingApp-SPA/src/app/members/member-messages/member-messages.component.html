@@ -55,9 +55,13 @@
 
       <div class="row">
         <div class="col-11">
-          <textarea #placeTextArea class="form-control" id="placeTextArea" placeholder="Send private message here..."></textarea>
-          <textarea #contentTextArea class="form-control" type="text" id="contentTextArea" [(ngModel)]="newMessage.content"
-            name="content" required (keyup)="getPredictions($event)"></textarea>
+          <!-- <textarea #placeTextArea class="form-control" id="placeTextArea" placeholder="Send private message here..."></textarea> -->
+          <!-- {{messagePlaceHolder}} -->
+          <div class="div-placeholder">
+            <span>{{newMessage.content}}</span><span>{{messagePlaceHolder}}</span>
+          </div>
+          <textarea #contentTextArea class="form-control" type="text" id="contentTextArea"
+            [(ngModel)]="newMessage.content" name="content" required (keyup)="getPredictions($event)"></textarea>
         </div>
         <div class="col-1">
           <button class="btn btn-primary btn-send" [disabled]="!messageForm.valid">

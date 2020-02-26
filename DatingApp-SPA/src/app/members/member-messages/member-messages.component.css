@@ -17,11 +17,16 @@
 .rounded-circle {
     height: 50px;
     width: 50px;
+    border: 1px solid gray;
 }
 
 .card-body {
     overflow-y: scroll;
     height: 400px;
+    background: url(../../../assets/chat_bg.png) center center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 .chat-content-body{
     border: 1px solid gray;
@@ -47,6 +52,21 @@
     left: 0;
     background: rgba(255, 255, 255, 0.2);
     resize: none;
+    height: 70px;
+    font-size: 14px;
+    padding: 5px 10px !important;
+    line-height: 16px;
+}
+.div-placeholder{
+    font-size: 14px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 10%;
+    left: 0;
+    padding: 6px 11px !important;
+    color: #a6a6a6;
+    line-height: 16px;
 }
 #placeTextArea{
     position: absolute;
