@@ -21,11 +21,13 @@ export class ManageHttp implements HttpInterceptor{
             // });
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.split('=')[0] === 'http://localhost:5001/SentenceComplete?text') {
             this.sameUrlReq = this.httpCancelService.SavePrevRequest(req);
             if (this.sameUrlReq) {
                 this.httpCancelService.cancelPendingRequests();
             }
-            return next.handle(req).pipe(takeUntil(this.httpCancelService.onCancelPendingRequests()));
+        }
+        return next.handle(req).pipe(takeUntil(this.httpCancelService.onCancelPendingRequests()));
     }
 }
 // export const HttpInterceptorProvider = {

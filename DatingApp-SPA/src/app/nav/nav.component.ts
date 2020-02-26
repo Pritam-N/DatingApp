@@ -12,7 +12,7 @@ export class NavComponent implements OnInit {
 
   model: any = {};
   photoUrl: string;
-
+  unreadMessages = 10;
   constructor(public authService: AuthService, private alertify: AlertifyService,
               private router: Router) { }
 
@@ -40,6 +40,8 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('user');
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
+    this.model.username = '';
+    this.model.password = '';
     this.router.navigate(['/home']);
   }
 }
