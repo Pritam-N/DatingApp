@@ -15,6 +15,9 @@ namespace DatingApp.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
+
+        public DbSet<ContactUs> ContactUs { get; set; }
+
         public DbSet<FeaturedUsers> FeaturedUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder){

@@ -9,6 +9,7 @@ using DatingApp.Helpers;
 using DatingApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 namespace DatingApp.Controllers
 {
 
@@ -44,6 +45,14 @@ namespace DatingApp.Controllers
         {
             var states = await _repository.GetStates(id);
             return Ok(states);
+        }
+
+        [HttpPost("contactMessage")]
+        public async Task<IActionResult> SendMessage(ContatctUsMessageDto contatctUsMessageDto)
+        {
+             var addContactMessage = _mapper.Map<ContactUs>(contatctUsMessageDto);
+             await  _repository.AddContactMessage(addContactMessage);
+             return Ok();
         }
     }
 }

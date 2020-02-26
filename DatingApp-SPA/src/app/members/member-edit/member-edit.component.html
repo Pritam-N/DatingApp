@@ -66,7 +66,7 @@
                     <div class="col-sm-4">
                       <div class="form-group">
                         <label for="country">Country</label>
-                        <select class="form-control" name="country"  #countrySelected [(ngModel)]="user.country" (change)='onCountrySelected(countrySelected.value)'>
+                        <select class="form-control" name="country" #countrySelected [(ngModel)]="user.country" (click)='onCountrySelected(countrySelected.value)'>
                           <option *ngFor="let country of _listCountries" [selected]="user.country === country.name" [value]="country.name">{{country.name}}</option>
                         </select>
                       </div>
@@ -74,7 +74,8 @@
                     <div class="col-sm-4">
                       <div class="form-group">
                         <label for="state">State</label>
-                        <select  class="form-control" name="state"  #stateSelected [(ngModel)]="user.state" (change)='onStateSelected(stateSelected.value)'>
+                        <select  class="form-control" name="state"  #stateSelected [(ngModel)]="user.state" (click)='onStateSelected(stateSelected.value)'>
+                          <option value='0'>Choose State</option>
                           <option   *ngFor="let state of _listStates" [selected]="user.state === state.name" [value]="state.name">{{state.name}}</option>
                         </select>
                       </div>
@@ -83,6 +84,7 @@
                       <div class="form-group">
                         <label for="city">City</label>
                         <select class="form-control" name="city" [(ngModel)]="user.city">
+                          <option value='0'>Choose City</option>
                           <option *ngFor="let city of _listCities" [selected]="user.city === city.name" [value]="city.name">{{city.name}}</option>
                         </select>
                       </div>
