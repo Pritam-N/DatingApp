@@ -57,7 +57,7 @@
         <div class="col-11">
           <textarea #placeTextArea class="form-control" id="placeTextArea" placeholder="Send private message here..."></textarea>
           <textarea #contentTextArea class="form-control" type="text" id="contentTextArea" [(ngModel)]="newMessage.content"
-            name="content" required (keyup)="getPredictions()"></textarea>
+            name="content" required (keyup)="getPredictions($event)"></textarea>
         </div>
         <div class="col-1">
           <button class="btn btn-primary btn-send" [disabled]="!messageForm.valid">

@@ -67,43 +67,37 @@ export class MemberMessagesComponent implements OnInit, AfterViewInit {
 
   }
 
-  getPredictions() {
-    this.placeTextArea.nativeElement.placeholder = ''
-    if (this.contentTextArea.nativeElement.value.trim() == '') {
-      this.placeTextArea.nativeElement.placeholder = 'Send private message here...';
-    }
-
+  getPredictions($event) {
     const message = this.newMessage.content;
-    this.mlService.getSuggestion(message).subscribe((response) => {
-      // console.log(response);
-      this.changePrediction(response);
-    }, error => {
-      this.alertify.error(error);
-    });
+    if (message.trim() != '') {
+      this.mlService.getSuggestion(message).subscribe((response) => {
+        var responseText = response.toString();
+        if (responseText.includes(message)) {
+          responseText = responseText.substring(message.length + 1, responseText.length);
+        }
+        this.changePrediction($event, responseText);
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
   }
 
-  changePrediction(response) {
-    var inputText = this.contentTextArea.nativeElement.value;
+  changePrediction($event, responseText) {
+    const message = this.newMessage.content;
     var placeText = '';
-    for (let i = 0; i <= inputText.length + 5; i++) {
-      if (inputText[i] == '\n') {
-        placeText += '\n'
+    for (let i = 0; i <= message.length; i++) {
+      if (message[i] == '\n') {
+        placeText += '\n '
       }
       else {
-        placeText += ' ';
+        placeText += " ";
       }
     }
-    var responseText = response.substring(placeText.length - 5, response.length);
+    placeText += "   ";
     this.placeTextArea.nativeElement.placeholder = placeText + responseText;
-
-    const messageBox = document.querySelector("[name=content]");
-    messageBox.addEventListener("keydown", (e: KeyboardEvent) => {
-      let { keyCode } = e;
-      if (keyCode == 9) {
-        e.preventDefault();
-        console.log(responseText)
-        this.contentTextArea.nativeElement.value += responseText;
-      }
-    })
+    if ($event.keyCode == 39) {
+      this.newMessage.content += responseText;
+      this.placeTextArea.nativeElement.placeholder = '';
+    }
   }
 }
