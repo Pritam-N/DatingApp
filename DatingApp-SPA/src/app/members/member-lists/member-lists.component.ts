@@ -4,6 +4,7 @@ import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_thirdpartyservices/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination, PaginationResult } from 'src/app/_models/Pagination';
+
 @Component({
   selector: 'app-member-lists',
   templateUrl: './member-lists.component.html',
@@ -35,6 +36,14 @@ export class MemberListsComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.loadUsers();
+  }
+
+  formatLabel(value: number) {
+    if (value > 100) {
+      return Math.round(value / 100);
+    }
+
+    return value;
   }
 
   loadUsers() {
