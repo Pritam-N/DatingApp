@@ -17,13 +17,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
-<<<<<<< HEAD
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 
-=======
 import { MatTabsModule } from '@angular/material/tabs';
->>>>>>> 7ea2ebfdb76f2229d563d319d06d2ab85c505a2d
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
