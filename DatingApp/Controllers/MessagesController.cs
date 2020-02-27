@@ -142,5 +142,22 @@ namespace DatingApp.Controllers
             await _repo.SaveAll();
             return NoContent();
         }
+
+        [HttpGet("UnreadMessages")]
+        public async Task<IActionResult> GetUnreadMessagesForUser(int userId,
+                            [FromQuery]MessageParams messageParams)
+        {
+            if(userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            messageParams.UserId = userId;
+            
+            var messagesfromRepo = await _repo.GetUnreadMessagesForUser(messageParams);
+
+            //var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesfromRepo);
+            //Response.Body = messagesfromRepo;
+            
+            return Ok(messagesfromRepo);
+        }
     }
 }

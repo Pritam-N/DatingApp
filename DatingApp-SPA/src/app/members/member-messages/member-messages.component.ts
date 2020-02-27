@@ -18,15 +18,13 @@ export class MemberMessagesComponent implements OnInit, AfterViewInit {
   @Input() recipientId: number;
   messages: Message[];
   newMessage: any = {};
-
+  unreadMessages: any;
   constructor(private authService: AuthService, private userService: UserService,
-    private alertify: AlertifyService, private mlService: MlService) {
-
+              private alertify: AlertifyService, private mlService: MlService) {
   }
-
-
   ngOnInit() {
     this.loadMessages();
+    this.userService.currentUnreadMessages = null;
   }
 
   loadMessages() {

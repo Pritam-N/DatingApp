@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_thirdpartyservices/alertify.service';
 import { Router } from '@angular/router';
+import { Pagination } from '../_models/Pagination';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { PaginationResult } from '../_models/Pagination';
+import { UserService } from '../_services/user.service';
+import { CommonHelperService } from '../_services/common-helper.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,15 +14,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
+  unreadMessages: number;
   model: any = {};
   photoUrl: string;
-  unreadMessages = 10;
+  messageContainer = 'Unread';
   constructor(public authService: AuthService, private alertify: AlertifyService,
-              private router: Router) { }
+              private router: Router, public userService: UserService,
+              ) {
+                //this.unreadMessages = this.userService.unreadMessages;
+  }
+
 
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    //this.userService.currentUnreadMessages.subscribe(msg => this.unreadMessages = msg);
+  }
+  loadUnreadMessages() {
+    this.userService.getUnreadMessages(this.authService.decodedToken.nameid, this.messageContainer)
+    .subscribe(res => console.log(res));
   }
 
   login() {
@@ -26,6 +40,7 @@ export class NavComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     }, () => {
+      this.loadUnreadMessages();
       this.router.navigate(['/members']);
     });
   }

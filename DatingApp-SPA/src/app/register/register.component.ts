@@ -98,8 +98,7 @@ export class RegisterComponent implements OnInit {
     });
   }
   onCountrySelected(id: string) {
-    if (id !== '0') {
-      console.log('country selected');
+    if (id !== '') {
       this.registerForm.get('state').enable();
       this.commonService.getStates(id)
       .subscribe((res: PaginationResult<States[]>) => {
@@ -107,13 +106,10 @@ export class RegisterComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
-    } else {
-      this._countrySelected =  true;
-      console.log('country  0 selected');
     }
   }
   onStateSelected(id: string) {
-    if (id !== '0') {
+    if (id !== '') {
       this.registerForm.get('city').enable();
       this.commonService.getCities(id)
       .subscribe((res: PaginationResult<Cities[]>) => {

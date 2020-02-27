@@ -19,7 +19,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/messages']" routerLinkActive="active">
-         <span matBadge="{{unreadMessages}}"  matBadgePosition="above after" matBadgeOverlap=false> Messages</span>
+         <span matBadge="{{userService.currentUnreadMessages}}"  matBadgePosition="above after" matBadgeOverlap=false> Messages</span>
           <span class="sr-only">(current)</span>
         </a>
       </li>
@@ -52,9 +52,12 @@
       </span>
 
       <a class="dropdown-toggle" dropdownToggle>
-        Welcome {{authService.decodedToken?.unique_name | titlecase}}
+      {{authService.decodedToken?.unique_name | titlecase}}
       </a>
-
+      <!-- <a [matMenuTriggerFor]="menu">
+        <mat-icon>notifications_none</mat-icon>
+      </a> -->
+      
       <div class="dropdown-menu mt-4" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/member/edit']" routerLinkActive="router-link-active"><i class="fa fa-user"></i>Edit Profile</a>
         <div class="dropdown-divider"></div>
@@ -68,5 +71,11 @@
         [(ngModel)]="model.password">
       <button class="btn btn-primary my-2 my-sm-0" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>
+
+
+    <!-- <mat-menu #menu="matMenu" class='notifications'>
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu> -->
   </div>
 </nav>
