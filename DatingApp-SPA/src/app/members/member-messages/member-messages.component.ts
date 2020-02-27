@@ -1,27 +1,36 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/user.service';
-import { User } from 'src/app/_models/user';
 import { Message } from 'src/app/_models/Message';
 import { AlertifyService } from 'src/app/_thirdpartyservices/alertify.service';
 import { tap } from 'rxjs/operators';
 import { MlService } from 'src/app/_services/ml.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-member-messages',
   templateUrl: './member-messages.component.html',
   styleUrls: ['./member-messages.component.css']
 })
-export class MemberMessagesComponent implements OnInit, AfterViewInit {
+export class MemberMessagesComponent implements OnInit {
 
   @Input() recipientId: number;
+
   messages: Message[];
   newMessage: any = {};
+<<<<<<< HEAD
   unreadMessages: any;
+=======
+  messagePlaceHolder: string = 'Enter some text';
+  responseText: string = '';
+  stopWords: string = '.?!';
+  oldText: string = '';
+  newText: string = '';
+
   constructor(private authService: AuthService, private userService: UserService,
               private alertify: AlertifyService, private mlService: MlService) {
   }
+
+
   ngOnInit() {
     this.loadMessages();
     this.userService.currentUnreadMessages = null;
@@ -59,28 +68,38 @@ export class MemberMessagesComponent implements OnInit, AfterViewInit {
       });
   }
 
-  @ViewChild('placeTextArea') placeTextArea: ElementRef;
-  @ViewChild('contentTextArea') contentTextArea: ElementRef;
-  ngAfterViewInit(): void {
-
-  }
-
   getPredictions($event) {
-    const message = this.newMessage.content;
-    if (message.trim() != '') {
-      this.mlService.getSuggestion(message).subscribe((response) => {
-        var responseText = response.toString();
-        if (responseText.includes(message)) {
-          responseText = responseText.substring(message.length + 1, responseText.length);
-        }
-        this.changePrediction($event, responseText);
-      }, error => {
-        this.alertify.error(error);
-      });
+    if ($event.keyCode == 39) {
+      this.newMessage.content += this.responseText;
+      this.oldText = this.newMessage.content;
+      this.responseText = '';
+      this.messagePlaceHolder = '';
+    }
+    else if ($event.keyCode == 32 || $event.keyCode == 8) {
+      this.messagePlaceHolder = '';
+      return;
+    }
+    else {
+      const message = this.newMessage.content.trim();
+
+      this.newText = message.substring(this.oldText.length);
+
+      this.messagePlaceHolder = '';
+      if (message.trim() != '') {
+        this.mlService.getSuggestion(this.oldText, this.newText).subscribe((response) => {
+          this.responseText = response.toString();
+          if (this.responseText.includes(this.newText)) {
+            this.responseText = this.responseText.substring(this.newText.length + 1, this.responseText.length);
+          }
+          this.changePrediction($event);
+        }, error => {
+          this.alertify.error(error);
+        });
+      }
     }
   }
 
-  changePrediction($event, responseText) {
+  changePrediction($event) {
     const message = this.newMessage.content;
     var placeText = '';
     for (let i = 0; i <= message.length; i++) {
@@ -92,10 +111,6 @@ export class MemberMessagesComponent implements OnInit, AfterViewInit {
       }
     }
     placeText += "   ";
-    this.placeTextArea.nativeElement.placeholder = placeText + responseText;
-    if ($event.keyCode == 39) {
-      this.newMessage.content += responseText;
-      this.placeTextArea.nativeElement.placeholder = '';
-    }
+    this.messagePlaceHolder = placeText + this.responseText;
   }
 }

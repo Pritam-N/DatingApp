@@ -11,3 +11,18 @@ img.img-thumbnail {
 input[type=file]{
     color: transparent;
 }
+.label-file-select{
+    font-size: 1.2em;
+    cursor: pointer;
+    color: royalblue;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: 0.2s ease all;
+}
+.label-file-select:hover {
+    background: #e6e6e6;
+}
+.file-select{
+    display: none;
+}

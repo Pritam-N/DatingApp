@@ -7,7 +7,7 @@
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 .tab-panel {
-    border: 1px solid #ddd;
+    border: 1px solid gray;
     padding: 10px;
     border-radius: 4px;
   }
@@ -75,6 +75,77 @@
 .wrapper-container{
   background: linear-gradient(45deg, lightgray, white, white, lightgray);
 }
+
+
+/* Styling for profile edit and details */
+
+.cover-pic{
+  background: url(./assets/intro-bg.jpg) center center fixed;
+  background-size: cover;
+}
+.cover-pic-overlay{
+  height: 270px;
+  background: rgba(0, 0, 0, 0.7);
+}
+.cover-pic-content{
+  position: relative;
+  top: -120px;
+}
+.profile-image{
+  height: 220px;
+  width: 220px;
+  border-radius: 5px;
+  border: 2px solid #E95420;
+  transition: transform 0.5s;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.profile-image:hover{
+  transform: scale(1.1);
+}
+.profile-name{
+  min-height: 120px;
+  color: white;
+  margin-top: 30px;
+}
+.profile-highlight{
+  min-height: 100px;
+  margin-top: 20px;
+}
+
+.profile-tab-details{
+  margin-top: -120px;
+}
+.mat-full-width{
+  width: 100%;
+}
+.edit-profile-container{
+  padding: 0 5%;
+}
+
+.pofile-bg{
+  background: url(./assets/bckgr.jpg) center center fixed;
+  background-size: cover;
+}
+.profile-bg-overlay{
+  background: rgba(255, 255, 255, 0.65);
+  padding-bottom: 15px;
+}
+.inherit-form-control{
+  background: inherit;
+  border: 1px solid gray;
+}
+
+@media only screen and (max-width: 768px) {
+  .profile-name{
+      text-align: center;
+      color: black;
+  }
+  .profile-highlight{
+      padding: 0px 25px;
+  }
+}
+
+/* End styling for profile edit and details */
 
 
 html, body { height: 100%; }

@@ -13,7 +13,7 @@ export class MlService {
     this.baseUrl = environment.mlUrl;
   }
 
-  getSuggestion(text: string) {
+  getSuggestion(oldText: string, newText: string) {
     // const body = new URLSearchParams();
     // body.set('text', text);
 
@@ -21,6 +21,6 @@ export class MlService {
     //   headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     // };
 
-    return this.http.get(this.baseUrl + 'SentenceComplete' + '?text=' + text);
+    return this.http.get(this.baseUrl + 'SentenceComplete' + '?oldtext=' + oldText + '&text=' + newText);
   }
 }

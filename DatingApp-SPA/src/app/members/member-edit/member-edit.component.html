@@ -1,104 +1,127 @@
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-sm-4">
-      <h1>Your Profile</h1>
-    </div>
-    <div class="col-sm-8">
-      <div *ngIf="editForm.dirty" class="alert alert-info">
-        <strong>Information:</strong>You have made changes. Any unsaved chanegs will be lost!
+<div class="pofile-bg">
+  <div class="profile-bg-overlay">
+    <div class="cover-pic">
+      <div class="cover-pic-overlay">
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <div class='card'>
-        <img class='card-img-top img-thumbnail' src="{{photoUrl || '../../../../../assets/user.png'}}" alt="{{user.commonName}}">
-        <div class='card-body'>
-          <div>
-            <strong>Location:</strong>
-            <p>
-              {{user.city}}, {{user.state}}, {{user.country}}
-            </p>
-          </div>
-          <div>
-            <strong>Age:</strong>
-            <p>
-              {{user.age}}
-            </p>
-          </div>
-          <div>
-            <strong>Last Active:</strong>
-            <p>
-              {{user.lastActive | dateAgo}}
-            </p>
-          </div>
-          <div>
-            <strong>Member Since:</strong>
-            <p>
-              {{user.created | date: 'mediumDate'}}
-            </p>
-          </div>
-          <div class='card-footer'>
-
-            <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success">Save Changes</button> 
+    <div class="container cover-pic-content">
+      <div class="row">
+        <div class="col-md-4 col-12 center-content">
+          <img class="profile-image" src="{{user.photoUrl || '../../../../../assets/user.png'}}"
+            alt="{{user.commonName}}">
+        </div>
+        <div class="col-md-8 col-12">
+          <!-- {{user | json}} -->
+          <div class="row">
+            <div class="col-12 profile-name">
+              <h2>{{user.commonName}}</h2>
+              <h4>{{user.city}}, {{user.state}}, {{user.country}}</h4>
+            </div>
+            <div class="col-12 profile-highlight">
+              <div class="row">
+                <div class="col-sm-4 col-12">
+                  <p>
+                    <strong>Age:</strong>
+                    {{user.age}}
+                  </p>
+                </div>
+                <div class="col-sm-4 col-12">
+                  <p>
+                    <strong>Last Active:</strong>
+                    {{user.lastActive | dateAgo}}
+                  </p>
+                </div>
+                <div class="col-sm-4 col-12">
+                  <p>
+                    <strong>Member Since:</strong>
+                    {{user.created | date}}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-8">
-      <div class="tab-panel">
-        <tabset class="member-tabset">
-        
-          <tab heading="Edit Profile">
-            <form #editForm="ngForm" (ngSubmit)="updateUser()" id="editForm">
-              <h4>Description</h4>
-              <textarea name="introduction" rows="6" class="form-control" 
-              [(ngModel)]="user.introduction"></textarea>
-              <h4>Looking For</h4>
-              <textarea name="lookingFor" rows="6" class="form-control" 
-              [(ngModel)]="user.lookingFor"></textarea>
-              <h4>Interests</h4>
-              <textarea name="interests" rows="6" class="form-control" 
-              [(ngModel)]="user.interests"></textarea>
-              <h4>Location Details</h4>
-              <div>
-                <div class="row">
+
+    <div class="container profile-tab-details">
+      <div class="col-12">
+        <div class="tab-panel">
+          <tabset class="member-tabset">
+
+            <tab heading="Edit Profile">
+              <div class="edit-profile-container">
+                <form #editForm="ngForm" (ngSubmit)="updateUser()" id="editForm">
+                  <div class="form-group">
+                    <label for="introduction"><strong>Description:</strong></label>
+                    <textarea id="introduction" name="introduction" rows="5" class="form-control inherit-form-control"
+                      [(ngModel)]="user.introduction"></textarea>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="lookingFor"><strong>Looking For:</strong></label>
+                        <textarea id="lookingFor" name="lookingFor" rows="5" class="form-control inherit-form-control"
+                          [(ngModel)]="user.lookingFor"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="interests"><strong>Interests:</strong></label>
+                        <textarea id="interests" name="interests" rows="5" class="form-control inherit-form-control"
+                          [(ngModel)]="user.interests"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <label for="country">Country</label>
-                        <select class="form-control" name="country" #countrySelected [(ngModel)]="user.country" (click)='onCountrySelected(countrySelected.value)'>
-                          <option *ngFor="let country of _listCountries" [selected]="user.country === country.name" [value]="country.name">{{country.name}}</option>
+                        <label for="country"><strong>Country: </strong></label>
+                        <select class="form-control inherit-form-control" id="country" name="country" #countrySelected
+                          [(ngModel)]="user.country" (click)='onCountrySelected(countrySelected.value)'>
+                          <option *ngFor="let country of _listCountries" [selected]="user.country === country.name"
+                            [value]="country.name">{{country.name}}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <label for="state">State</label>
-                        <select  class="form-control" name="state"  #stateSelected [(ngModel)]="user.state" (click)='onStateSelected(stateSelected.value)'>
+                        <label for="state"><strong>State: </strong></label>
+                        <select class="form-control inherit-form-control" id="state" name="state" #stateSelected [(ngModel)]="user.state"
+                          (click)='onStateSelected(stateSelected.value)'>
                           <option value='0'>Choose State</option>
-                          <option   *ngFor="let state of _listStates" [selected]="user.state === state.name" [value]="state.name">{{state.name}}</option>
+                          <option *ngFor="let state of _listStates" [selected]="user.state === state.name"
+                            [value]="state.name">{{state.name}}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <label for="city">City</label>
-                        <select class="form-control" name="city" [(ngModel)]="user.city">
+                        <label for="city"><strong>City: </strong></label>
+                        <select class="form-control inherit-form-control" id="city" name="city" [(ngModel)]="user.city">
                           <option value='0'>Choose City</option>
-                          <option *ngFor="let city of _listCities" [selected]="user.city === city.name" [value]="city.name">{{city.name}}</option>
+                          <option *ngFor="let city of _listCities" [selected]="user.city === city.name"
+                            [value]="city.name">
+                            {{city.name}}</option>
                         </select>
                       </div>
                     </div>
-                    
-                </div>
+                  </div>
+
+                  <div class="center-content">
+                    <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success">Save Changes</button>
+                  </div>
+                </form>
               </div>
-            </form>            
-          </tab>
-          <tab heading="Edit Photos">
-            <app-photo-editor [photos]="user.photos" 
-                (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-editor>
-          </tab>
-        </tabset>
+            </tab>
+            <tab heading="Edit Photos">
+              <app-photo-editor [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)">
+              </app-photo-editor>
+            </tab>
+          </tabset>
+        </div>
       </div>
     </div>
   </div>
