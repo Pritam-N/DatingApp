@@ -17,9 +17,6 @@ export class MemberMessagesComponent implements OnInit {
 
   messages: Message[];
   newMessage: any = {};
-<<<<<<< HEAD
-  unreadMessages: any;
-=======
   messagePlaceHolder: string = 'Enter some text';
   responseText: string = '';
   stopWords: string = '.?!';
