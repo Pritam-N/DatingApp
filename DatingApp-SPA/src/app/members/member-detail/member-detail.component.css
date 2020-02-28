@@ -17,9 +17,6 @@
 .card-img-top{
     text-align: center;
 }
-.tab-panel{
-    background-color: #fff;
-}
 tab{
     height: 500px;
     max-height: 500px;
@@ -28,85 +25,3 @@ tab{
 .message-tab{
     overflow-y: hidden;
 }
-
-.info-wrapper{
-    height: 200px;
-    background: url(../../../assets/bckgr.jpg) center center;
-    background-size: cover;
-    border: 2px solid royalblue;
-    border-radius: 10px;
-    border-bottom: 0;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.profile-text-section{
-    margin-top: 20px;
-}
-
-.profile-details{
-    position: relative;
-    top: -100px;
-    border: 2px solid royalblue;
-    border-radius: 10px;
-    border-top: 0;
-    border-top-right-radius: 0px;
-    border-top-left-radius: 0px;
-    min-height: 220px;
-    height: 100%;
-    margin-top: 20px;
-}
-.profile-username{
-    margin-top: 30px;
-}
-.moved-up{
-    position: relative;
-    top: -75px;
-}
-
-
-.cover-pic{
-    background: url(../../../assets/intro-bg.jpg) center center fixed;
-    background-size: cover;
-}
-.cover-pic-overlay{
-    height: 270px;
-    background: rgba(0, 0, 0, 0.7);
-}
-.cover-pic-content{
-    position: relative;
-    top: -120px;
-}
-.profile-image{
-    height: 220px;
-    width: 220px;
-    border-radius: 5px;
-    border: 2px solid #E95420;
-    transition: transform 0.2s;
-}
-.profile-image:hover{
-    transform: scale(1.1);
-}
-
-.profile-tab-details{
-    margin-top: -50px;
-}
-
-
-
-
-@media only screen and (max-width: 768px) {
-    .profile-text-section {
-        padding-top: 20px;
-    }
-    .profile-image{
-        height: 200px;
-        width: 200px;
-    }
-    .profile-username{
-        margin: auto;
-    }
-    .profile-details{
-        padding: 0px 20px;
-    }
-  }

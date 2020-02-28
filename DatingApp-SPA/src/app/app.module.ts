@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import 'hammerjs';
 import 'mousetrap';
-import {GalleryModule} from '@ks89/angular-modal-gallery';
+import { GalleryModule } from '@ks89/angular-modal-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -113,7 +116,9 @@ export function tokenGetter() {
       MatRadioModule,
       MatCardModule,
       MatSliderModule,
-      MatBadgeModule
+      MatBadgeModule,
+      MatIconModule,
+      MatTabsModule
    ],
    providers: [
       AuthService,
@@ -132,7 +137,7 @@ export function tokenGetter() {
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
 
       HttpCancelService,
-       { provide: HTTP_INTERCEPTORS, useClass: ManageHttp, multi: true }
+      { provide: HTTP_INTERCEPTORS, useClass: ManageHttp, multi: true }
       //{provide: HTTP_INTERCEPTORS, useClass: HttpCancelService, multi: true}
    ],
    bootstrap: [
