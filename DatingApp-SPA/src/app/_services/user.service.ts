@@ -13,12 +13,14 @@ import { Message } from '../_models/Message';
 export class UserService {
 
   baseUrl = '';
-  //unreadMessages : nuber;
-  currentUnreadMessages: number = null;
+  unreadMessages = new BehaviorSubject<number>(null);
+  currentUnreadMessages = this.unreadMessages.asObservable();
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl + 'users/';
   }
-
+  changeUnreadMessages(msg: number) {
+    this.unreadMessages .next(msg);
+  }
   getUsers(page?, itemsPerPage?, userParams?, likesParam?): Observable<PaginationResult<User[]>> {
     console.log(itemsPerPage);
     const paginatedResult: PaginationResult<User[]> = new PaginationResult<User[]>();
@@ -120,16 +122,16 @@ export class UserService {
           .subscribe();
   }
 
-  getUnreadMessages(id: number, messageContainer?){
+  getUnreadMessages(id: number, messageContainer?) {
     let params = new HttpParams();
     params = params.append('messageContainer', messageContainer);
     return this.http.get<Message[]>(this.baseUrl  + id + '/messages' + '/UnreadMessages', { observe: 'response', params})
     .pipe(
       map(response => {
         if (response.body.length !== 0) {
-          this.currentUnreadMessages = response.body.length;
+          this.unreadMessages.next(response.body.length);
         }
-        return;
+        return this.currentUnreadMessages;
       })
     );
   }

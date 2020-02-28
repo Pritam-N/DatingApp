@@ -21,17 +21,17 @@ export class NavComponent implements OnInit {
   constructor(public authService: AuthService, private alertify: AlertifyService,
               private router: Router, public userService: UserService,
               ) {
-                //this.unreadMessages = this.userService.unreadMessages;
   }
 
 
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
-    //this.userService.currentUnreadMessages.subscribe(msg => this.unreadMessages = msg);
+    this.userService.currentUnreadMessages.subscribe(msg => this.unreadMessages = msg);
+    this.loadUnreadMessages();
   }
   loadUnreadMessages() {
     this.userService.getUnreadMessages(this.authService.decodedToken.nameid, this.messageContainer)
-    .subscribe(res => console.log(res));
+    .subscribe(res =>  console.log(res));
   }
 
   login() {
