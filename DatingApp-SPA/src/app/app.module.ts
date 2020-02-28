@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule, TabsModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -17,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -94,6 +96,7 @@ export function tokenGetter() {
       TooltipModule.forRoot(),
       FileUploadModule,
       BsDatepickerModule.forRoot(),
+      CollapseModule.forRoot(),
       PaginationModule.forRoot(),
       ButtonsModule.forRoot(),
       // NgxGalleryModule,
@@ -109,7 +112,8 @@ export function tokenGetter() {
       MatSelectModule,
       MatRadioModule,
       MatCardModule,
-      MatSliderModule
+      MatSliderModule,
+      MatBadgeModule
    ],
    providers: [
       AuthService,

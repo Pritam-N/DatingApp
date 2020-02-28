@@ -20,6 +20,7 @@ namespace DatingApp.Helpers
 
         public bool Likees { get; set; } = false;
         public bool Likers { get; set; } = false;
+        public bool getAllUsers {get; set; } = false;
         
     }
 }

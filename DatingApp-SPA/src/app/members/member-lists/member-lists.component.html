@@ -1,98 +1,121 @@
 <div class="gradient-wrapper-container">
-  <div class="container custom-container">
-    <div class="text-center mt-3">
-      <h2>Your matches - {{pagination.totalItems}} found</h2>
-    </div>
+    <div class="container-fluid custom-container">
+        <div class="inner-container">
+            <!-- Filters Row -->
+            <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
+                <div class="row mt-3 mb-3 box-shadow">
+                    <!-- <form class="example-form"> -->
+                    <div class="col-sm-4">
+                        <!-- <mat-form-field appearance="none" class="example-full-width">
+                                    <mat-label><span Search style="font-weight:bold; font-size: medium;" class="fa fa-search">
+                                            Search Members...</span></mat-label>
+                                    <input matInput placeholder="Ex. Ross" value="" />
+                                </mat-form-field> -->
+                        <label for="minAge" style="font-weight: bold;">Age From:</label>
+                        14<mat-slider class="slider-width" thumbLabel [displayWith]="formatLabel" tickInterval="1"
+                            min="14" max="100" name="minAge" [(ngModel)]="userParams.minAge" (change)="loadUsers()">
+                        </mat-slider>100&nbsp;&nbsp;&nbsp;
+                        <label for="minAge" style="font-weight: bold;">Age To:</label>
+                        14<mat-slider class="slider-width" thumbLabel [displayWith]="formatLabel" tickInterval="1"
+                            min="14" max="100" name="maxAge" [(ngModel)]="userParams.maxAge" (change)="loadUsers()">
+                        </mat-slider>100
+                    </div>
 
-    <div class="row p-3">
-      <div class="col-sm-3 p-4">
-        <form class="form" #form="ngForm">
+                    <div class="col-sm-4 mt-2 center-box">
+                        <a href="javascript:void(0)" (click)="resetFilters()">Reset</a>
+                        <!-- <button class="btn btn-lg btn-info fa fa-users" matBadge={{users.length}} matBadgePosition="after"
+                            matBadgeColor="accent">
+                            Members
+                        </button> -->
+                    </div>
 
-          <div class="row px-3 mb-3">
-            <div class="btn-group flex-wrap">
-              <button type="button" name="orderBy" class="btn btn-sm btn-primary last-active-size"
-                [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers()">Last Active</button>
-              <button type="button" name="orderBy" class="btn btn-sm btn-primary" [(ngModel)]="userParams.orderBy"
-                btnRadio="created" (click)="loadUsers()">Newest Members</button>
+                    <div class="col-sm-4" style="text-align:right;">
+                        <mat-form-field appearance="none" style="width:120px;">
+                            <mat-label><span style="font-weight: bold;">Select Gender:</span></mat-label>
+                            <mat-select disableOptionCentering id="gender"
+                             [(ngModel)]="userParams.gender" name="gender" (selectionChange)="loadUsers()">
+                                <mat-option *ngFor="let gender of genderList" [value]="gender.value">
+                                    {{gender.display}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        &nbsp;&nbsp;&nbsp;
+                        <div class="btn-group flex-wrap">
+                            <button type="button" name="orderBy" class="btn btn-sm btn-primary last-active-size"
+                              [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers()">Last Active</button>
+                            <button type="button" name="orderBy" class="btn btn-sm btn-primary" [(ngModel)]="userParams.orderBy"
+                              btnRadio="created" (click)="loadUsers()">Newest Members</button>
+                          </div>
+                    </div>
+                    <!-- </form> -->
+                </div>
             </div>
-          </div>
-
-          <div style="float:right">
-            <a href="javascript:void(0)" (click)="resetFilters()">Reset</a>
-          </div>
-          <br>
-
-          <div class="form-group mt-3">
-            <div><label for="minAge">Age From:</label></div>
-            14<span style="float:right">100</span>
-            <mat-slider
-              thumbLabel
-              [displayWith]="formatLabel"
-              tickInterval="1"
-              min="14"
-              max="100" 
-              name="minAge"
-              [(ngModel)]="userParams.minAge"
-              (change)="loadUsers()">
-            </mat-slider>
-          </div>
-
-          <div class="form-group mt-3">
-            <div><label for="minAge">Age To:</label></div>
-            14<span style="float:right">100</span>
-            <mat-slider
-              thumbLabel
-              [displayWith]="formatLabel"
-              tickInterval="1"
-              min="14"
-              max="100" 
-              name="maxAge"
-              [(ngModel)]="userParams.maxAge"
-              (change)="loadUsers()">
-            </mat-slider>
-          </div>
-
-          <!-- <div class="form-group mb-3">
-            <div><label for="minAge">Age From: <span style="font-weight: bold;">{{ userParams.minAge }}</span></label></div>
-            14<span style="float:right">100</span><input type="range" class="custom-range" step="1" id="minAge" name="minAge" [(ngModel)]="userParams.minAge"
-              min="14" max="100" (change)="loadUsers()">
-          </div>
-
-          <div class="form-group mb-3">
-            <div><label for="maxAge">Age To: <span style="font-weight: bold;">{{ userParams.maxAge }}</span></label></div>
-            14<span style="float:right">100</span><input type="range" class="custom-range" step="1" id="maxAge" [(ngModel)]="userParams.maxAge" name="maxAge"
-              min="14" max="100" (change)="loadUsers()">
-          </div> -->
-
-          <div class="form-group mb-3">
-            <label for="gender">Show:</label>
-            <select class="form-control" id="gender" [(ngModel)]="userParams.gender" name="gender"
-              (change)="loadUsers()">
-              <option *ngFor="let gender of genderList" [value]="gender.value">
-                {{gender.display}}
-              </option>
-            </select>
-          </div>
-
-        </form>
-      </div>
-      <div class="col-sm-9">
-        <div class="row">
-          <div *ngFor="let user of users" class="col-lg-3 col-md-4 col-sm-6">
-            <app-member-card [user]="user"></app-member-card>
-          </div>
+            <div class="row justify-content-center">
+                <span (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                    area-controls="collapseBasic" class="fa fa-bars fa-lg pointer"></span>
+            </div>
+            <div *ngIf="defaultView; else filteredView" class="default-view">
+                <!-- Active Users label row -->
+                <div class="row active-users-row justify-content-center mt-5">
+                    <div class="active-users-text">
+                        <h1 class="text-lg-center text-md-center" style="font-size:xx-large;margin-bottom: 0px;">Most
+                            Active
+                            Users</h1>
+                        <h1 class="text-lg-center text-md-center" style="font-weight: bold;font-size:xx-large;">on the
+                            Community Forum</h1>
+                    </div>
+                </div>
+                <!-- Active Users content row -->
+                <div class="row active-users-row justify-content-center p-5">
+                    <div *ngFor="let user of activeUsers" class="col-lg-2 col-md-4 col-sm-6">
+                        <app-member-card [user]="user"></app-member-card>
+                    </div>
+                </div>
+                <!-- latest logged Users label row -->
+                <div class="active-bg-color">
+                    <div class="row active-users-row justify-content-center mt-5 p-3">
+                        <div class="active-users-text">
+                            <h1 class="text-lg-center text-md-center" style="font-weight: bold;font-size:xx-large;">
+                                Latest
+                                Logged Users</h1>
+                        </div>
+                    </div>
+                    <!-- latest logged Users content rows -->
+                    <div class="row active-users-row justify-content-center p-5">
+                        <div *ngFor="let user of latestLoggedUsers" class="col-lg-2 col-md-4 col-sm-6">
+                            <app-member-card [user]="user"></app-member-card>
+                        </div>
+                    </div>
+                </div>
+                <!-- registered Users label row -->
+                <div class="row active-users-row justify-content-center mt-5 p-3">
+                    <div class="active-users-text">
+                        <h1 class="text-lg-center text-md-center" style="font-weight: bold;font-size:xx-large;">They
+                            Have
+                            Just Registered</h1>
+                    </div>
+                </div>
+                <!-- registered Users content row -->
+                <div class="row active-users-row justify-content-center p-5">
+                    <div *ngFor="let user of justRegisteredUsers" class="col-lg-2 col-md-4 col-sm-6">
+                        <app-member-card [user]="user"></app-member-card>
+                    </div>
+                </div>
+            </div>
+            <ng-template #filteredView>
+                <div class="row active-users-row justify-content-center p-5">
+                    <div *ngFor="let user of users" class="col-lg-2 col-md-4 col-sm-6">
+                        <app-member-card [user]="user"></app-member-card>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems"
+                        [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
+                        (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+                        firstText="&laquo;" lastText="&raquo;">
+                    </pagination>
+                </div>
+            </ng-template>
         </div>
-        <div class="row d-flex justify-content-center">
-          <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems"
-            [itemsPerPage]="pagination.itemsPerPage" [(ngModel)]="pagination.currentPage"
-            (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
-            lastText="&raquo;">
-
-          </pagination>
-        </div>
-      </div>
     </div>
-    <div>
-    </div>
-  </div>
 </div>
