@@ -22,14 +22,17 @@ export class MemberMessagesComponent implements OnInit {
   stopWords: string = '.?!';
   oldText: string = '';
   newText: string = '';
+  unreadMessages: number;
 
   constructor(private authService: AuthService, private userService: UserService,
-    private alertify: AlertifyService, private mlService: MlService) {
-
+              private alertify: AlertifyService, private mlService: MlService) {
   }
+
 
   ngOnInit() {
     this.loadMessages();
+    this.userService.changeUnreadMessages(null);
+    //this..currentUnreadMessages.subscribe(msg => this.unreadMessages = msg);
   }
 
   loadMessages() {

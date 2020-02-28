@@ -29,13 +29,9 @@ namespace DatingApp.Data
             int countryid = _context.Countries.Where(x => x.Name == id).Select(x => x.Id).FirstOrDefault();
             return await _context.States.Where(x => x.CountryId == countryid).ToListAsync();
         }
-        // public async Task<bool> SaveAll()
-        // {
-        //     return await _context.SaveChangesAsync() > 0;
-        // }
         public async Task<bool> AddContactMessage(ContactUs contactUs)
         {
-            await _context.ContactUs.AddAsync(contactUs);
+             _context.ContactUs.Add(contactUs);
             return await _context.SaveChangesAsync() > 0;
         }
     }

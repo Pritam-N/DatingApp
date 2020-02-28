@@ -75,10 +75,7 @@
 .wrapper-container{
   background: linear-gradient(45deg, lightgray, white, white, lightgray);
 }
-.card{
-  background: inherit;
-  color: black;
-}
+
 
 /* Styling for profile edit and details */
 

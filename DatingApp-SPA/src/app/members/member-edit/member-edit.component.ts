@@ -49,6 +49,7 @@ export class MemberEditComponent implements OnInit {
   }
   onCountrySelected(id: string) {
     this.user.state = '0';
+    this.user.city = '0';
     this.commonService.getStates(id)
     .subscribe((res: PaginationResult<States[]>) => {
       this._listStates = res.result;
@@ -90,7 +91,6 @@ export class MemberEditComponent implements OnInit {
   updateUser() {
     this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
       this.alertify.success('Profile updated successfully.');
-      console.log(this.user);
       this.editForm.reset(this.user);
     }, (error: string) => {
       this.alertify.error(error);

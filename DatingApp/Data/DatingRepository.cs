@@ -167,5 +167,25 @@ namespace DatingApp.Data
                                 .ToListAsync();
             return messages;
         }
+        public async Task<List<Message>> GetUnreadMessagesForUser(MessageParams messageParams)
+        {
+            var messages = _context.Messages
+                                .Include(s => s.Sender).ThenInclude(s => s.Photos)
+                                .Include(s => s.Recipient).ThenInclude(s => s.Photos)
+                                .AsQueryable();
+
+            switch (messageParams.MessageContainer)
+            {
+                default:
+                    messages = messages.Where(s => s.RecipientId == messageParams.UserId && s.RecipientDeleted == false 
+                                                && s.IsRead == false);
+                    break;
+            }
+
+            messages = messages.OrderByDescending(s => s.MessageSent);
+
+            return await messages.ToListAsync();
+        }
     }
+    
 }

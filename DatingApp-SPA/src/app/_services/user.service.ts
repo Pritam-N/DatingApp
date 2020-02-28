@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { User } from '../_models/user';
 import { PaginationResult } from '../_models/Pagination';
 import { map } from 'rxjs/operators';
@@ -13,10 +13,14 @@ import { Message } from '../_models/Message';
 export class UserService {
 
   baseUrl = '';
+  unreadMessages = new BehaviorSubject<number>(null);
+  currentUnreadMessages = this.unreadMessages.asObservable();
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl + 'users/';
   }
-
+  changeUnreadMessages(msg: number) {
+    this.unreadMessages .next(msg);
+  }
   getUsers(page?, itemsPerPage?, userParams?, likesParam?): Observable<PaginationResult<User[]>> {
     console.log(itemsPerPage);
     const paginatedResult: PaginationResult<User[]> = new PaginationResult<User[]>();
@@ -116,5 +120,19 @@ export class UserService {
   markAsread(userId: number, messageid: number) {
     return this.http.post(this.baseUrl + userId + '/messages/' + messageid + '/read', {})
           .subscribe();
+  }
+
+  getUnreadMessages(id: number, messageContainer?) {
+    let params = new HttpParams();
+    params = params.append('messageContainer', messageContainer);
+    return this.http.get<Message[]>(this.baseUrl  + id + '/messages' + '/UnreadMessages', { observe: 'response', params})
+    .pipe(
+      map(response => {
+        if (response.body.length !== 0) {
+          this.unreadMessages.next(response.body.length);
+        }
+        return this.currentUnreadMessages;
+      })
+    );
   }
 }
