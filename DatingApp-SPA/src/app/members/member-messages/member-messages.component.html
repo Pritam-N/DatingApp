@@ -54,14 +54,14 @@
     <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
 
       <div class="row">
-        <div class="col-11">
+        <div class="col-md-11 col-10">
           <div class="div-placeholder">
             <span>{{newMessage.content}}</span><span>{{messagePlaceHolder}}</span>
           </div>
           <textarea #contentTextArea class="form-control" type="text" id="contentTextArea"
             [(ngModel)]="newMessage.content" name="content" required (keyup)="getPredictions($event)"></textarea>
         </div>
-        <div class="col-1">
+        <div class="col-md-1 col-2">
           <button class="btn btn-primary btn-send" [disabled]="!messageForm.valid">
             <i class="fa fa-paper-plane"></i>
           </button>
