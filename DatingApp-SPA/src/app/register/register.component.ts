@@ -56,9 +56,9 @@ export class RegisterComponent implements OnInit {
       username: ['', Validators.required],
       commonname: ['', Validators.required],
       dob: [null, Validators.required],
-      city: ['0', Validators.required],
-      state: ['0', Validators.required],
-      country: ['0', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      country: ['', Validators.required, ],
       password: ['',
               [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       confirmpassword: ['', Validators.required]
@@ -70,7 +70,6 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(g: FormGroup) {
     return g.get('password').value === g.get('confirmpassword').value ? null : {mismatch: true };
   }
-
   cancel() {
     this.cancelRegister.emit(false);
   }
@@ -99,19 +98,18 @@ export class RegisterComponent implements OnInit {
     });
   }
   onCountrySelected(id: string) {
-    if (id !== '0') {
+    if (id !== '') {
       this.registerForm.get('state').enable();
       this.commonService.getStates(id)
       .subscribe((res: PaginationResult<States[]>) => {
         this._listStates = res.result;
-        console.log(this._listStates);
       }, error => {
         this.alertify.error(error);
       });
     }
   }
   onStateSelected(id: string) {
-    if (id !== '0') {
+    if (id !== '') {
       this.registerForm.get('city').enable();
       this.commonService.getCities(id)
       .subscribe((res: PaginationResult<Cities[]>) => {

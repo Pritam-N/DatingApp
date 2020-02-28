@@ -66,9 +66,15 @@ export class HomeComponent implements OnInit {
   }
   contact() {
     if (this.model.senderEmail && this.model.message) {
-      this.commonService.sendMessage(this.model).subscribe(() => {
-        console.log(this.model);
-      });
+      this.commonService.sendMessage(this.model).subscribe(
+        response => {
+          this.model.senderEmail = '';
+          this.model.message = '';
+          this.alertify.success('Mail sent Successfully');
+        }, error => {
+          console.log(error);
+          this.alertify.success('Error!!');
+        });
     }
   }
 }
