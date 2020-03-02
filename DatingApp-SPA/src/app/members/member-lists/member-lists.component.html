@@ -11,14 +11,23 @@
                                             Search Members...</span></mat-label>
                                     <input matInput placeholder="Ex. Ross" value="" />
                                 </mat-form-field> -->
-                        <label for="minAge" style="font-weight: bold;">Age From:</label>
+                        <mat-form-field appearance="none" style="width:120px;">
+                            <mat-label><span style="font-weight: bold;">Age Range:</span></mat-label>
+                            <mat-select disableOptionCentering id="age" [(ngModel)]="filteredAge" name="age"
+                                (selectionChange)="loadUsers()">
+                                <mat-option *ngFor="let ageRange of ageRangeList" [value]="ageRange.id">
+                                    {{ageRange.displayName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <label for="minAge" style="font-weight: bold;">Age From:</label>
                         14<mat-slider class="slider-width" thumbLabel [displayWith]="formatLabel" tickInterval="1"
                             min="14" max="100" name="minAge" [(ngModel)]="userParams.minAge" (change)="loadUsers()">
                         </mat-slider>100&nbsp;&nbsp;&nbsp;
                         <label for="minAge" style="font-weight: bold;">Age To:</label>
                         14<mat-slider class="slider-width" thumbLabel [displayWith]="formatLabel" tickInterval="1"
                             min="14" max="100" name="maxAge" [(ngModel)]="userParams.maxAge" (change)="loadUsers()">
-                        </mat-slider>100
+                        </mat-slider>100 -->
                     </div>
 
                     <div class="col-sm-4 mt-2 center-box">
@@ -32,8 +41,8 @@
                     <div class="col-sm-4" style="text-align:right;">
                         <mat-form-field appearance="none" style="width:120px;">
                             <mat-label><span style="font-weight: bold;">Select Gender:</span></mat-label>
-                            <mat-select disableOptionCentering id="gender"
-                             [(ngModel)]="userParams.gender" name="gender" (selectionChange)="loadUsers()">
+                            <mat-select disableOptionCentering id="gender" [(ngModel)]="userParams.gender" name="gender"
+                                (selectionChange)="loadUsers()">
                                 <mat-option *ngFor="let gender of genderList" [value]="gender.value">
                                     {{gender.display}}
                                 </mat-option>
@@ -42,17 +51,19 @@
                         &nbsp;&nbsp;&nbsp;
                         <div class="btn-group flex-wrap">
                             <button type="button" name="orderBy" class="btn btn-sm btn-primary last-active-size"
-                              [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers()">Last Active</button>
-                            <button type="button" name="orderBy" class="btn btn-sm btn-primary" [(ngModel)]="userParams.orderBy"
-                              btnRadio="created" (click)="loadUsers()">Newest Members</button>
-                          </div>
+                                [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers()">Last
+                                Active</button>
+                            <button type="button" name="orderBy" class="btn btn-sm btn-primary"
+                                [(ngModel)]="userParams.orderBy" btnRadio="created" (click)="loadUsers()">Newest
+                                Members</button>
+                        </div>
                     </div>
                     <!-- </form> -->
                 </div>
             </div>
             <div class="row justify-content-center">
-                <span (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
-                    area-controls="collapseBasic" class="fa fa-bars fa-lg pointer"></span>
+                <button type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                    area-controls="collapseBasic" class="fa fa-filter fa-lg pointer btn btn-light"> Filters</button>
             </div>
             <div *ngIf="defaultView; else filteredView" class="default-view">
                 <!-- Active Users label row -->

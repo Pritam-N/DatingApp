@@ -33,24 +33,20 @@ namespace DatingApp.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            if(userParams.getAllUsers){
-                
-                var users = _context.Users.Include(s => s.Photos).AsQueryable();
-                
-                users = users.Where(s => s.Id != userParams.UserId);
-                
-                users = users.Where(s => s.Gender == userParams.Gender);
+            var users = _context.Users.Include(s => s.Photos).OrderByDescending(s => s.LastActive)
+                        .AsQueryable();
+
+            users = users.Where(s => s.Id != userParams.UserId);
+
+            users = users.Where(s => s.Gender == userParams.Gender);
+
+            if(userParams.getAllUsers)
+            {
                 return await PagedList<User>.CreateAsync(users, 1, 9999);
 
             }
             else {
-                var users = _context.Users.Include(s => s.Photos).OrderByDescending(s => s.LastActive)
-                            .AsQueryable();
-
-                users = users.Where(s => s.Id != userParams.UserId);
-
-                users = users.Where(s => s.Gender == userParams.Gender);
-
+                
                 if(userParams.Likers)
                 {
                     var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
