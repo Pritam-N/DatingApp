@@ -4,12 +4,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule, TabsModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import 'hammerjs';
 import 'mousetrap';
-import {GalleryModule} from '@ks89/angular-modal-gallery';
+import { GalleryModule } from '@ks89/angular-modal-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,8 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -98,6 +99,7 @@ export function tokenGetter() {
       TooltipModule.forRoot(),
       FileUploadModule,
       BsDatepickerModule.forRoot(),
+      CollapseModule.forRoot(),
       PaginationModule.forRoot(),
       ButtonsModule.forRoot(),
       // NgxGalleryModule,
@@ -114,11 +116,9 @@ export function tokenGetter() {
       MatRadioModule,
       MatCardModule,
       MatSliderModule,
-      MatIconModule,
       MatBadgeModule,
-
+      MatIconModule,
       MatTabsModule
-
    ],
    providers: [
       AuthService,
@@ -137,7 +137,7 @@ export function tokenGetter() {
       // {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
 
       HttpCancelService,
-       { provide: HTTP_INTERCEPTORS, useClass: ManageHttp, multi: true }
+      { provide: HTTP_INTERCEPTORS, useClass: ManageHttp, multi: true }
       //{provide: HTTP_INTERCEPTORS, useClass: HttpCancelService, multi: true}
    ],
    bootstrap: [

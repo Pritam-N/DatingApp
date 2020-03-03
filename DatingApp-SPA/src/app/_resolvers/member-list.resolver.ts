@@ -11,7 +11,7 @@ export class MemberListResolver implements Resolve<User[]> {
 
     pageNumber = 1;
     pageSize = 8;
-
+    getAllUsers = true;
     constructor(
             private userService: UserService,
             private router: Router,
@@ -19,7 +19,7 @@ export class MemberListResolver implements Resolve<User[]> {
 
     // tslint:disable-next-line: max-line-length
     resolve(route: ActivatedRouteSnapshot): Observable<User[]>  {
-        return this.userService.getUsers(this.pageNumber, this.pageSize).pipe(
+        return this.userService.getUsers(this.pageNumber, this.pageSize, null, null, this.getAllUsers).pipe(
             catchError( error => {
                 this.alertify.error('Problem retrieving data.');
                 this.router.navigate(['/home']);

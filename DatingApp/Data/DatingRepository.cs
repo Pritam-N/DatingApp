@@ -34,55 +34,62 @@ namespace DatingApp.Data
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(s => s.Photos).OrderByDescending(s => s.LastActive)
-                            .AsQueryable();
+                        .AsQueryable();
 
             users = users.Where(s => s.Id != userParams.UserId);
 
             users = users.Where(s => s.Gender == userParams.Gender);
 
-            if(userParams.Likers)
+            if(userParams.getAllUsers)
             {
-                var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
-                users = users.Where(s => userLikers.Contains(s.Id));
+                return await PagedList<User>.CreateAsync(users, 1, 9999);
+
             }
-
-            if (userParams.Likees)
-            {
-                var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
-                users = users.Where(s => userLikees.Contains(s.Id));
-            }
-            // if(userParams.MinAge != 14 || userParams.MaxAge != 40) 
-            // {
-            //     var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-            //     var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
-
-            //     users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
-            // }
-
-            if(userParams.MaxAge > 100)
-            {
-                userParams.MaxAge = 100;
-            }
-
-            var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-            var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
-
-            users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
-
-            if(!string.IsNullOrEmpty(userParams.Orderby))
-            {
-                switch (userParams.Orderby)
+            else {
+                
+                if(userParams.Likers)
                 {
-                    case "created":
-                        users = users.OrderByDescending(s => s.Created);
-                        break;
-                    default:
-                        users = users.OrderByDescending(s => s.LastActive);
-                        break;
+                    var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
+                    users = users.Where(s => userLikers.Contains(s.Id));
                 }
-            }
 
-            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+                if (userParams.Likees)
+                {
+                    var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
+                    users = users.Where(s => userLikees.Contains(s.Id));
+                }
+                // if(userParams.MinAge != 14 || userParams.MaxAge != 40) 
+                // {
+                //     var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                //     var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
+
+                //     users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
+                // }
+
+                if(userParams.MaxAge > 100)
+                {
+                    userParams.MaxAge = 100;
+                }
+
+                var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
+
+                users = users.Where(s => s.DOB >= minDOB && s.DOB <= maxDOB);
+
+                if(!string.IsNullOrEmpty(userParams.Orderby))
+                {
+                    switch (userParams.Orderby)
+                    {
+                        case "created":
+                            users = users.OrderByDescending(s => s.Created);
+                            break;
+                        default:
+                            users = users.OrderByDescending(s => s.LastActive);
+                            break;
+                    }
+                }
+                return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+            }
         }
 
         public async Task<List<FeaturedUsers>> GetFeaturedUsers()

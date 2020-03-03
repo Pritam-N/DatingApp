@@ -18,45 +18,51 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl + 'users/';
   }
+
   changeUnreadMessages(msg: number) {
     this.unreadMessages .next(msg);
   }
-  getUsers(page?, itemsPerPage?, userParams?, likesParam?): Observable<PaginationResult<User[]>> {
+  getUsers(page?, itemsPerPage?, userParams?, likesParam?, getAllUsers?): Observable<PaginationResult<User[]>> {
+
     console.log(itemsPerPage);
     const paginatedResult: PaginationResult<User[]> = new PaginationResult<User[]>();
     let params = new HttpParams();
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
+    if (!getAllUsers) {
+      if (page != null && itemsPerPage != null) {
+        params = params.append('pageNumber', page);
+        params = params.append('pageSize', itemsPerPage);
+      }
+
+      if (userParams != null) {
+        params = params.append('minAge', userParams.minAge);
+        params = params.append('maxAge', userParams.maxAge);
+        params = params.append('gender', userParams.gender);
+        params = params.append('orderBy', userParams.orderBy);
+      }
+
+      if (likesParam === 'Likers') {
+        params = params.append('Likers', 'true');
+      }
+
+      if (likesParam === 'Likees') {
+        params = params.append('Likees', 'true');
+      }
+    } else {
+      params = params.append('getAllUsers', 'true');
     }
+    return this.http.get<User[]>(this.baseUrl, { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
 
-    if (userParams != null) {
-      params = params.append('minAge', userParams.minAge);
-      params = params.append('maxAge', userParams.maxAge);
-      params = params.append('gender', userParams.gender);
-      params = params.append('orderBy', userParams.orderBy);
-    }
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return paginatedResult;
+        })
+      );
 
-    if (likesParam === 'Likers') {
-      params = params.append('Likers', 'true');
-    }
-
-    if (likesParam === 'Likees') {
-      params = params.append('Likees', 'true');
-    }
-
-    return this.http.get<User[]>(this.baseUrl, { observe: 'response', params})
-            .pipe(
-              map(response => {
-                paginatedResult.result = response.body;
-
-                if (response.headers.get('Pagination') != null) {
-                  paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-                }
-                return paginatedResult;
-              })
-            );
   }
 
   getUser(id: number): Observable<User> {
@@ -91,18 +97,18 @@ export class UserService {
       params = params.append('pageSize', itemsPerPage);
     }
 
-    return this.http.get<Message[]>(this.baseUrl + id + '/messages', { observe: 'response', params})
-    .pipe(
-      map(response => {
-        paginatedResult.result = response.body;
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
 
-        if (response.headers.get('Pagination') != null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
 
-        return paginatedResult;
-      })
-    );
+          return paginatedResult;
+        })
+      );
   }
 
   getMessageThread(id: number, recipientId: number) {
@@ -119,7 +125,7 @@ export class UserService {
 
   markAsread(userId: number, messageid: number) {
     return this.http.post(this.baseUrl + userId + '/messages/' + messageid + '/read', {})
-          .subscribe();
+      .subscribe();
   }
 
   getUnreadMessages(id: number, messageContainer?) {
